@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Entrega - DJ WASH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/all.min.css">
+    <style>
+        :root {
+            --roxo-dark: #1A052D;
+            --roxo-vibrante: #6A1B9A;
+            --gold: #D4AF37;
+        }
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .header-premium {
+            background: linear-gradient(135deg, var(--roxo-dark) 0%, var(--roxo-vibrante) 100%);
+            color: white;
+            padding: 30px 0;
+            border-bottom: 5px solid var(--gold);
+            margin-bottom: 30px;
+        }
+        .card-foto {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .card-foto:hover { transform: translateY(-5px); }
+        .badge-antes { background-color: #ff4757; position: absolute; top: 10px; left: 10px; padding: 8px 15px; border-radius: 20px; font-weight: bold; }
+        .badge-depois { background-color: #2ed573; position: absolute; top: 10px; left: 10px; padding: 8px 15px; border-radius: 20px; font-weight: bold; }
+        .img-comparativo { width: 100%; height: 350px; object-fit: cover; }
+        .info-box { background: white; border-radius: 15px; padding: 20px; margin-top: 20px; border-left: 5px solid var(--roxo-vibrante); }
+        .btn-premium { background-color: var(--roxo-vibrante); color: white; border: none; padding: 12px 25px; border-radius: 30px; font-weight: bold; }
+        .btn-premium:hover { background-color: var(--roxo-dark); color: var(--gold); }
+    </style>
+</head>
+<body>
+
+<div class="header-premium text-center">
+    <h1><i class="fas fa-check-circle"></i> Lavagem Concluída!</h1>
+    <p class="lead">Relatório de Entrega Premium - ID #{{ l.id }}</p>
+</div>
+
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card card-foto position-relative">
+                <span class="badge badge-antes text-white">ANTES (ENTRADA)</span>
+                {% if l.foto_entrada_url %}
+                    <img src="/{{ l.foto_entrada_url }}" class="img-comparativo" alt="Foto de Entrada">
+                {% else %}
+                    <div class="img-comparativo d-flex align-items-center justify-content-center bg-secondary text-white">
+                        <p>Foto de entrada não registrada</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card card-foto position-relative">
+                <span class="badge badge-depois text-white">DEPOIS (ENTREGA)</span>
+                {% if l.foto_saida_url %}
+                    <img src="/{{ l.foto_saida_url }}" class="img-comparativo" alt="Foto de Saída">
+                {% else %}
+                    <div class="img-comparativo d-flex align-items-center justify-content-center bg-secondary text-white">
+                        <p>Foto de saída não registrada</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="info-box shadow-sm">
+                <h4 class="text-primary"><i class="fas fa-car"></i> Detalhes do Veículo</h4>
+                <p><strong>Modelo:</strong> {{ l.veiculo.marca }} {{ l.veiculo.modelo }} | <strong>Placa:</strong> {{ l.veiculo.placa }}</p>
+                <hr>
+                <h4 class="text-primary"><i class="fas fa-clipboard-check"></i> Checklist e Avarias</h4>
+                <p><strong>Avarias observadas:</strong> {{ l.checklist_avarias or 'Nenhuma avaria registrada.' }}</p>
+                <p><strong>Nível de Combustível:</strong> {{ l.checklist_combustivel or 'Não informado' }}</p>
+                <p><strong>Insumos Utilizados:</strong> {{ l.produtos_usados }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="info-box shadow-sm border-success text-center">
+                <h4 class="text-success"><i class="fas fa-stopwatch"></i> Tempo Total</h4>
+                <h2 class="display-6">{{ l.tempo_total }}</h2>
+                <p class="text-muted">Valor Total Pago:</p>
+                <h3 class="text-dark">R$ {{ "%.2f"|format(l.valor_total) }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5 no-print">
+        <a href="/" class="btn btn-secondary btn-lg rounded-pill px-4 me-2">
+            <i class="fas fa-home"></i> Voltar ao Início
+        </a>
+        <a href="/lavagens/{{ l.id }}/recibo" class="btn btn-premium btn-lg shadow">
+            <i class="fas fa-file-pdf"></i> Gerar PDF para Cliente
+        </a>
+    </div>
+</div>
+
+<footer class="text-center text-muted mt-5 pb-4">
+    <p>DJ WASH - Estética Automotiva de Alta Performance</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket de Entrada | DJ WASH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dj-dark: #0f021f;
+            --dj-purple: #9d50bb;
+            --dj-gold: #f1d35a;
+        }
+
+        body {
+            background-color: var(--dj-dark);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            padding-bottom: 50px;
+        }
+
+        .ticket-card {
+            background: #ffffff;
+            color: #333;
+            border-radius: 25px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            margin-top: 20px;
+        }
+
+        .ticket-header {
+            background: #f8f9fa;
+            padding: 25px;
+            border-bottom: 2px dashed #ddd;
+            text-align: center;
+        }
+
+        .dj-logo { font-weight: 900; color: var(--dj-dark); letter-spacing: 2px; margin-bottom: 0; }
+        .dj-logo span { color: var(--dj-purple); }
+
+        .ticket-body { padding: 25px; }
+
+        .label-inspecao {
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .info-valor { font-size: 1.1rem; font-weight: 700; color: #222; margin-bottom: 15px; }
+
+        .avarias-box {
+            background: #fff5f5;
+            border: 1px solid #ffebeb;
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 0.9rem;
+            color: #d9534f;
+            margin-bottom: 20px;
+        }
+
+        .foto-preview {
+            width: 100%;
+            border-radius: 15px;
+            margin-top: 10px;
+            border: 3px solid #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .footer-status {
+            background: #f1f8ff;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 700;
+            width: 100%;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #1ebe57;
+            transform: translateY(-2px);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container d-flex justify-content-center">
+    <div class="col-12 col-md-6 col-lg-5">
+
+        <div class="ticket-card">
+            <div class="ticket-header">
+                <h2 class="dj-logo">DJ <span>WASH</span></h2>
+                <div class="badge bg-dark mt-2">COMPROVANTE DE ENTRADA</div>
+            </div>
+
+            <div class="ticket-body">
+                <div class="row">
+                    <div class="col-7">
+                        <span class="label-inspecao">Veículo</span>
+                        <div class="info-valor">{{ l.veiculo.modelo|upper }}</div>
+                    </div>
+                    <div class="col-5 text-end">
+                        <span class="label-inspecao">Placa</span>
+                        <div class="info-valor">{{ l.veiculo.placa|upper }}</div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <span class="label-inspecao">Relatório de Avarias</span>
+                    <div class="avarias-box">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        {{ l.checklist_avarias or "Nenhuma avaria detectada no ato da entrega." }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <span class="label-inspecao">Combustível</span>
+                        <div class="info-valor"><i class="fas fa-gas-pump me-1"></i> {{ l.checklist_combustivel }}</div>
+                    </div>
+                    <div class="col-6 text-end">
+                        <span class="label-inspecao">Objetos de Valor</span>
+                        <div class="info-valor">{{ l.checklist_objetos or "Nenhum" }}</div>
+                    </div>
+                </div>
+
+                {% if l.foto_entrada_url %}
+                <div class="mb-2">
+                    <span class="label-inspecao">Registro Fotográfico</span>
+                    <img src="/{{ l.foto_entrada_url }}" class="foto-preview" alt="Foto de entrada">
+                </div>
+                {% endif %}
+
+                <div class="footer-status">
+                    <div class="small text-muted mb-1 text-uppercase fw-bold">Entrada Registrada em</div>
+                    <div class="fw-bold text-dark">{{ l.data_inicio.strftime('%d/%m/%Y às %H:%M') }}</div>
+                    <hr class="my-2">
+                    <div class="text-primary fw-bold"><i class="fas fa-spinner fa-spin me-2"></i>STATUS: EM ANDAMENTO</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 px-2">
+            <button onclick="enviarWhatsapp()" class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp me-2"></i> COMPARTILHAR NO WHATSAPP
+            </button>
+            <div class="text-center mt-3">
+                <a href="/" class="text-white-50 text-decoration-none small">
+                    <i class="fas fa-chevron-left me-1"></i> Voltar ao Painel
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function enviarWhatsapp() {
+    const cliente = "{{ l.cliente.nome }}";
+    const modelo = "{{ l.veiculo.modelo|upper }}";
+    const placa = "{{ l.veiculo.placa|upper }}";
+    const telefone = "{{ l.cliente.telefone }}".replace(/\D/g, '');
+    const link = window.location.href;
+
+    const mensagem = `*DJ WASH - ESTÉTICA AUTOMOTIVA*%0A%0A` +
+                     `Olá, *${cliente}*! 👋%0A%0A` +
+                     `Confirmamos a entrada do seu veículo:* ${modelo}* (Placa: ${placa}).%0A%0A` +
+                     `O checklist de inspeção inicial já foi concluído. Você pode conferir os detalhes e fotos no link abaixo:%0A%0A` +
+                     `${link}%0A%0A` +
+                     `*Status:* EM ANDAMENTO 🚗💨%0A` +
+                     `Avisaremos assim que estiver pronto!`;
+
+    window.open(`https://api.whatsapp.com/send?phone=55${telefone}&text=${mensagem}`, '_blank');
+}
+</script>
+
+</body>
+</html>

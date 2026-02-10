@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Lavagem - DJ WASH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #0f021f; color: white; font-family: 'Segoe UI', sans-serif; }
+        .card { background-color: #1a052d; border: 1px solid #9d50bb; color: white; margin-bottom: 20px; border-radius: 15px; }
+        .img-galeria { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; border: 2px solid #f1d35a; cursor: pointer; transition: 0.3s; }
+        .img-galeria:hover { transform: scale(1.02); }
+        .label-tech { color: #f1d35a; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; }
+        .status-concluido { border-left: 5px solid #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Relatório Completo #{{ l.id }}</h2>
+            <a href="/historico" class="btn btn-outline-light">Voltar</a>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card p-3 status-concluido">
+                    <span class="label-tech">Veículo</span>
+                    <h4>{{ l.veiculo.marca }} {{ l.veiculo.modelo }}</h4>
+                    <span class="badge bg-warning text-dark w-50 mb-3">{{ l.veiculo.placa }}</span>
+
+                    <span class="label-tech">Cliente</span>
+                    <p>{{ l.veiculo.cliente.nome }}</p>
+
+                    <span class="label-tech">Produtos Utilizados</span>
+                    <p class="text-info">{{ l.produtos_usados }}</p>
+
+                    <span class="label-tech">Tempo Total</span>
+                    <p>{{ l.tempo_total }}</p>
+
+                    <span class="label-tech">Observações do Sistema</span>
+                    <p class="small text-secondary">{{ l.checklist_avarias or 'Sem observações adicionais.' }}</p>
+                </div>
+
+                <div class="card p-3 text-center">
+                    <span class="label-tech">Valor Pago</span>
+                    <h2 class="text-success">R$ {{ "%.2f"|format(l.valor_total) }}</h2>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card p-3">
+                    <h5 class="mb-3"><i class="bi bi-camera"></i> Vistoria de Avarias (Entrada)</h5>
+                    <div class="row">
+                        {% for foto in fotos_avarias %}
+                        <div class="col-md-4 mb-3">
+                            <img src="/{{ foto }}" class="img-galeria" onclick="window.open(this.src)">
+                        </div>
+                        {% else %}
+                        <p class="text-muted ps-3">Nenhuma foto de avaria registada.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="card p-3">
+                    <h5 class="mb-3">Comparativo Antes e Depois</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <span class="label-tech d-block text-center mb-2">Estado Inicial (Antes)</span>
+                            {% if foto_antes %}
+                            <img src="/{{ foto_antes }}" class="img-galeria">
+                            {% else %}
+                            <div class="bg-dark d-flex align-items-center justify-content-center" style="height:200px; border-radius:10px;">Sem foto</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <span class="label-tech d-block text-center mb-2">Resultado Final (Depois)</span>
+                            {% if l.foto_saida_url %}
+                            <img src="/{{ l.foto_saida_url }}" class="img-galeria">
+                            {% else %}
+                            <div class="bg-dark d-flex align-items-center justify-content-center" style="height:200px; border-radius:10px;">Sem foto</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Integrada | DJ WASH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dj-dark: #0f021f;
+            --dj-card: #1a0b2e;
+            --dj-purple: #9d50bb;
+            --dj-gold: #f1d35a;
+            --dj-white: #ffffff;
+            --dj-gray: #b196d1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f021f 0%, #1a0435 100%);
+            color: var(--dj-white);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Navbar Premium */
+        .navbar {
+            background: rgba(22, 10, 37, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(157, 80, 187, 0.3);
+            padding: 16px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            font-weight: 900;
+            font-size: 1.8rem;
+            color: var(--dj-white) !important;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(157, 80, 187, 0.5);
+        }
+
+        .nav-btn {
+            color: var(--dj-white) !important;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            background: var(--dj-purple);
+            border-color: var(--dj-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(157, 80, 187, 0.4);
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(157, 80, 187, 0.3);
+        }
+
+        .page-header h2 {
+            font-weight: 900;
+            font-size: 2.2rem;
+            margin: 0;
+        }
+
+        /* Config Section */
+        .config-section {
+            background: linear-gradient(135deg, rgba(26, 11, 46, 0.9) 0%, rgba(31, 16, 51, 0.9) 100%);
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .config-section:hover {
+            border-color: var(--dj-purple);
+            box-shadow: 0 15px 50px rgba(157, 80, 187, 0.2);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(241, 211, 90, 0.3);
+        }
+
+        .section-title {
+            color: var(--dj-gold);
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            text-shadow: 0 2px 10px rgba(241, 211, 90, 0.3);
+        }
+
+        .section-title i {
+            margin-right: 12px;
+            font-size: 1.4rem;
+        }
+
+        .section-description {
+            color: var(--dj-gray);
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            line-height: 1.6;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid var(--dj-purple);
+            border-radius: 8px;
+        }
+
+        /* Form Elements */
+        .form-label {
+            color: var(--dj-gray);
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control,
+        .form-select {
+            background: rgba(0, 0, 0, 0.4) !important;
+            border: 1px solid rgba(157, 80, 187, 0.3) !important;
+            color: var(--dj-white) !important;
+            border-radius: 12px !important;
+            padding: 12px 16px !important;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background: rgba(0, 0, 0, 0.6) !important;
+            border-color: var(--dj-purple) !important;
+            box-shadow: 0 0 0 3px rgba(157, 80, 187, 0.15) !important;
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: var(--dj-gray) !important;
+            opacity: 0.5;
+        }
+
+        .input-group-text {
+            background: rgba(241, 211, 90, 0.1) !important;
+            border: 1px solid rgba(241, 211, 90, 0.3) !important;
+            color: var(--dj-gold) !important;
+            font-weight: 700;
+            border-radius: 12px 0 0 12px !important;
+        }
+
+        /* Buttons */
+        .btn-gold {
+            background: linear-gradient(135deg, var(--dj-gold) 0%, #f5e083 100%);
+            color: #0f021f;
+            font-weight: 800;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(241, 211, 90, 0.3);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(241, 211, 90, 0.5);
+            color: #0f021f;
+        }
+
+        .btn-purple {
+            background: linear-gradient(135deg, var(--dj-purple) 0%, #b06fd4 100%);
+            color: white;
+            font-weight: 800;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(157, 80, 187, 0.3);
+        }
+
+        .btn-purple:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(157, 80, 187, 0.5);
+            color: white;
+        }
+
+        .btn-delete {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: #e74c3c;
+            transform: scale(1.05);
+        }
+
+        /* Table Styles */
+        .table-custom {
+            color: var(--dj-white);
+            margin-top: 24px;
+        }
+
+        .table-custom thead th {
+            color: var(--dj-gray);
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(157, 80, 187, 0.3);
+            padding: 16px 12px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .table-custom tbody tr {
+            border-bottom: 1px solid rgba(157, 80, 187, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .table-custom tbody tr:hover {
+            background: rgba(157, 80, 187, 0.1);
+            transform: translateX(4px);
+        }
+
+        .table-custom tbody td {
+            padding: 16px 12px;
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+
+        .table-empty {
+            text-align: center;
+            padding: 40px;
+            color: var(--dj-gray);
+            font-style: italic;
+        }
+
+        /* Badge Styles */
+        .badge-insumo {
+            background: rgba(157, 80, 187, 0.2);
+            border: 1px solid rgba(157, 80, 187, 0.4);
+            color: var(--dj-gold);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+
+        .value-highlight {
+            color: var(--dj-gold);
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        .value-danger {
+            color: #e74c3c;
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        /* Form Group Enhanced */
+        .form-group-enhanced {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(157, 80, 187, 0.2);
+        }
+
+        /* Helper Text */
+        .helper-text {
+            color: var(--dj-gray);
+            font-size: 0.8rem;
+            margin-top: 8px;
+            display: block;
+            font-style: italic;
+        }
+
+        /* Icon Wrapper */
+        .icon-wrapper {
+            width: 40px;
+            height: 40px;
+            background: rgba(241, 211, 90, 0.1);
+            border: 1px solid rgba(241, 211, 90, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: var(--dj-gold);
+            font-size: 1.2rem;
+        }
+
+        /* Stats Card */
+        .stat-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: var(--dj-gray);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            color: var(--dj-gold);
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .config-section {
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+
+            .page-header h2 {
+                font-size: 1.6rem;
+            }
+
+            .table-custom {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">DJ <span style="color: var(--dj-gold);">WASH</span></a>
+        <div class="d-flex gap-2">
+            <a href="/historico" class="nav-btn">Financeiro</a>
+            <a href="/gestao" class="nav-btn">Gestão</a>
+            <a href="/clientes_gestao" class="nav-btn">Clientes</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <div class="page-header">
+        <h2>
+            <i class="fas fa-cogs me-3" style="color: var(--dj-gold);"></i>
+            Configurações de <span style="color: var(--dj-gold);">Negócio</span>
+        </h2>
+    </div>
+
+    <!-- PRECIFICAÇÃO DO TEMPO -->
+    <div class="config-section">
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-clock"></i>
+                Precificação do Tempo
+            </div>
+        </div>
+
+        <div class="section-description">
+            <i class="fas fa-info-circle me-2"></i>
+            Defina quanto custa sua hora de trabalho. O sistema usará isso para calcular o lucro real de cada lavagem.
+        </div>
+
+        <form action="/gestao/configurar_hora" method="POST">
+            <div class="row align-items-end g-3">
+                <div class="col-md-8">
+                    <label class="form-label">
+                        <i class="fas fa-dollar-sign me-2"></i>Valor da Hora de Trabalho
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        <input type="number" step="0.01" name="valor_hora" class="form-control" value="{{ config.valor_hora if config else '0.00' }}" placeholder="0.00">
+                        <span class="input-group-text">/hora</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-gold w-100">
+                        <i class="fas fa-save me-2"></i>Salvar Configuração
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- PRODUTOS E INSUMOS -->
+    <div class="config-section">
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-flask"></i>
+                Produtos e Insumos
+            </div>
+        </div>
+
+        <form action="/gestao/produto" method="POST" class="form-group-enhanced">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Nome do Produto</label>
+                    <input type="text" name="nome" class="form-control" placeholder="Ex: Shampoo Automotivo" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Preço de Compra</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        <input type="number" step="0.01" name="preco" class="form-control" placeholder="0.00" required>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">ML Total</label>
+                    <input type="number" name="ml_total" class="form-control" placeholder="5000" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">ML por Uso</label>
+                    <input type="number" name="ml_uso" class="form-control" placeholder="100" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label d-none d-md-block">&nbsp;</label>
+                    <button type="submit" class="btn btn-purple w-100">
+                        <i class="fas fa-plus-circle me-2"></i>Cadastrar
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-custom">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Preço Compra</th>
+                        <th>Volume Total</th>
+                        <th>Volume/Uso</th>
+                        <th>Custo/Lavagem</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if produtos %}
+                        {% for p in produtos %}
+                        <tr>
+                            <td><strong>{{ p.nome }}</strong></td>
+                            <td>R$ {{ "%.2f"|format(p.preco_compra) }}</td>
+                            <td>{{ p.ml_total }} ml</td>
+                            <td>{{ p.ml_por_uso }} ml</td>
+                            <td class="value-highlight">
+                                R$ {{ "%.2f"|format((p.preco_compra / p.ml_total) * p.ml_por_uso) }}
+                            </td>
+                            <td class="text-end">
+                                <button onclick="deletarItem({{ p.id }}, 'produtos')" class="btn btn-delete btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="table-empty">
+                                <i class="fas fa-box-open fa-2x mb-2 d-block"></i>
+                                Nenhum produto cadastrado ainda
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- SERVIÇOS PRÉ-PRONTOS -->
+    <div class="config-section">
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-concierge-bell"></i>
+                Serviços Pré-Prontos
+            </div>
+        </div>
+
+        <form action="/gestao/servico" method="POST" class="form-group-enhanced">
+            <div class="row g-3 mb-3">
+                <div class="col-md-12">
+                    <label class="form-label">Nome do Serviço</label>
+                    <input type="text" name="nome" class="form-control" placeholder="Ex: Lavagem Completa" required>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-12">
+                    <label class="form-label">Produtos Incluídos no Serviço</label>
+                    <select name="produtos_fixos_ids" class="form-select" multiple size="4">
+                        {% for p in produtos %}
+                            <option value="{{ p.id }}">{{ p.nome }}</option>
+                        {% endfor %}
+                    </select>
+                    <small class="helper-text">
+                        <i class="fas fa-lightbulb me-1"></i>
+                        Segure CTRL (ou CMD no Mac) e clique para selecionar múltiplos produtos
+                    </small>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Preço Hatch</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        <input type="number" step="0.01" name="hatch" class="form-control" placeholder="0.00">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Preço Sedan</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        <input type="number" step="0.01" name="sedan" class="form-control" placeholder="0.00">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Preço SUV</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        <input type="number" step="0.01" name="suv" class="form-control" placeholder="0.00">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label d-none d-md-block">&nbsp;</label>
+                    <button type="submit" class="btn btn-purple w-100">
+                        <i class="fas fa-save me-2"></i>Salvar Serviço
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-custom">
+                <thead>
+                    <tr>
+                        <th>Serviço</th>
+                        <th>Produtos Padrão</th>
+                        <th>Preços (Hatch / Sedan / SUV)</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if servicos %}
+                        {% for s in servicos %}
+                        <tr>
+                            <td><strong>{{ s.nome }}</strong></td>
+                            <td>
+                                {% if s.produtos_fixos %}
+                                    {% for p in s.produtos_fixos %}
+                                        <span class="badge-insumo">{{ p.nome }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="text-muted small">Nenhum produto</span>
+                                {% endif %}
+                            </td>
+                            <td class="value-highlight">
+                                R$ {{ "%.2f"|format(s.preco_hatch) }} /
+                                R$ {{ "%.2f"|format(s.preco_sedan) }} /
+                                R$ {{ "%.2f"|format(s.preco_suv) }}
+                            </td>
+                            <td class="text-end">
+                                <button onclick="deletarItem({{ s.id }}, 'servicos')" class="btn btn-delete btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="table-empty">
+                                <i class="fas fa-clipboard-list fa-2x mb-2 d-block"></i>
+                                Nenhum serviço cadastrado ainda
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- CUSTOS FIXOS MENSAIS -->
+    <div class="config-section">
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-file-invoice-dollar"></i>
+                Custos Fixos Mensais
+            </div>
+        </div>
+
+        <div class="section-description">
+            <i class="fas fa-info-circle me-2"></i>
+            Registre despesas recorrentes como aluguel, energia, água e outras contas fixas do negócio.
+        </div>
+
+        <form action="/gestao/custofixo" method="POST" class="form-group-enhanced">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Descrição da Despesa</label>
+                    <input type="text" name="item" class="form-control" placeholder="Ex: Aluguel do Imóvel" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Valor Mensal</label>
+                    <div class="input-group">
+                        <span class="input-group-text">R$</span>
+                        <input type="number" step="0.01" name="valor" class="form-control" placeholder="0.00" required>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label d-none d-md-block">&nbsp;</label>
+                    <button type="submit" class="btn btn-purple w-100">
+                        <i class="fas fa-plus-circle me-2"></i>Adicionar
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-custom">
+                <tbody>
+                    {% if custos %}
+                        {% for c in custos %}
+                        <tr>
+                            <td><strong>{{ c.item }}</strong></td>
+                            <td class="value-danger">
+                                R$ {{ "%.2f"|format(c.valor) }}
+                            </td>
+                            <td class="text-end">
+                                <button onclick="deletarItem({{ c.id }}, 'custosfixos')" class="btn btn-delete btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <tr style="background: rgba(231, 76, 60, 0.1); border-top: 2px solid rgba(231, 76, 60, 0.3);">
+                            <td colspan="2" class="text-end"><strong>TOTAL MENSAL:</strong></td>
+                            <td class="value-danger text-end">
+                                <strong>R$ {{ "%.2f"|format(custos|sum(attribute='valor')) }}</strong>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="table-empty">
+                                <i class="fas fa-receipt fa-2x mb-2 d-block"></i>
+                                Nenhum custo fixo cadastrado ainda
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function deletarItem(id, rota) {
+        if(confirm('Deseja realmente excluir este item? Esta ação não pode ser desfeita.')) {
+            try {
+                const response = await fetch(`/${rota}/${id}`, { method: 'DELETE' });
+                if(response.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Erro ao excluir o item. Tente novamente.');
+                }
+            } catch(error) {
+                alert('Erro de conexão. Verifique sua internet e tente novamente.');
+            }
+        }
+    }
+</script>
+</body>
+</html>

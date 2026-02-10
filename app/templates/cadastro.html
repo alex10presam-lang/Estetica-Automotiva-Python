@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Lavagem | DJ WASH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --dj-dark: #0f021f;
+            --dj-card: #1a0b2e;
+            --dj-purple: #9d50bb;
+            --dj-gold: #f1d35a;
+            --dj-white: #ffffff;
+            --dj-gray: #b196d1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f021f 0%, #1a0435 100%);
+            color: var(--dj-white);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Navbar Premium */
+        .navbar {
+            background: rgba(22, 10, 37, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(157, 80, 187, 0.3);
+            padding: 16px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            font-weight: 900;
+            font-size: 1.8rem;
+            color: var(--dj-white) !important;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(157, 80, 187, 0.5);
+        }
+
+        .btn-voltar {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--dj-white);
+            padding: 8px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-voltar:hover {
+            background: var(--dj-purple);
+            border-color: var(--dj-purple);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Card Principal */
+        .card-cadastro {
+            background: linear-gradient(135deg, rgba(26, 11, 46, 0.95) 0%, rgba(31, 16, 51, 0.95) 100%);
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(157, 80, 187, 0.3);
+        }
+
+        .page-title h3 {
+            font-weight: 900;
+            font-size: 2rem;
+            margin: 0;
+            text-shadow: 0 2px 20px rgba(241, 211, 90, 0.3);
+        }
+
+        .page-title i {
+            color: var(--dj-gold);
+            margin-right: 12px;
+            font-size: 2rem;
+        }
+
+        /* Toggle de Cliente */
+        .toggle-container {
+            background: linear-gradient(135deg, rgba(157, 80, 187, 0.15), rgba(241, 211, 90, 0.1));
+            border: 2px solid rgba(157, 80, 187, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 20px rgba(157, 80, 187, 0.1);
+        }
+
+        .toggle-label {
+            color: var(--dj-white);
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-group {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .btn-check:checked + .btn-toggle-option {
+            background: linear-gradient(135deg, var(--dj-purple) 0%, #b06fd4 100%);
+            color: white;
+            font-weight: 800;
+            box-shadow: 0 4px 15px rgba(157, 80, 187, 0.4);
+        }
+
+        .btn-toggle-option {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            color: var(--dj-white);
+            padding: 14px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-toggle-option:hover {
+            background: rgba(157, 80, 187, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Section Titles */
+        .section-title {
+            color: var(--dj-gold);
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin: 32px 0 20px 0;
+            padding-left: 16px;
+            border-left: 4px solid var(--dj-gold);
+            display: flex;
+            align-items: center;
+            text-shadow: 0 2px 10px rgba(241, 211, 90, 0.3);
+        }
+
+        .section-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Form Elements */
+        .form-label {
+            color: var(--dj-gray);
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control,
+        .form-select {
+            background: rgba(0, 0, 0, 0.4) !important;
+            border: 1px solid rgba(157, 80, 187, 0.3) !important;
+            color: var(--dj-white) !important;
+            border-radius: 12px !important;
+            padding: 12px 16px !important;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background: rgba(0, 0, 0, 0.6) !important;
+            border-color: var(--dj-purple) !important;
+            box-shadow: 0 0 0 3px rgba(157, 80, 187, 0.15) !important;
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: var(--dj-gray) !important;
+            opacity: 0.5;
+        }
+
+        .form-select option {
+            background: #1a0b2e;
+            color: var(--dj-white);
+            padding: 12px;
+        }
+
+        /* Seções com animação */
+        #secao_existente,
+        #secao_novo {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Card de Seleção de Veículo */
+        .select-vehicle-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Grid de Inputs */
+        .input-group-custom {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Botão Principal */
+        .btn-registrar {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            border: none;
+            color: white;
+            padding: 18px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 32px;
+            border-radius: 14px;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 25px rgba(39, 174, 96, 0.4);
+        }
+
+        .btn-registrar:hover {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(39, 174, 96, 0.6);
+        }
+
+        .btn-registrar i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Info Badge */
+        .info-badge {
+            background: rgba(241, 211, 90, 0.1);
+            border: 1px solid var(--dj-gold);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            color: var(--dj-gold);
+            display: inline-block;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+
+        /* Select Enhanced */
+        .select-enhanced {
+            position: relative;
+        }
+
+        .select-enhanced::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--dj-purple);
+            pointer-events: none;
+        }
+
+        /* Categoria Cards */
+        .categoria-info {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .categoria-tag {
+            background: rgba(157, 80, 187, 0.2);
+            border: 1px solid rgba(157, 80, 187, 0.4);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            color: var(--dj-gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card-cadastro {
+                padding: 24px;
+            }
+
+            .page-title h3 {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 0.95rem;
+            }
+
+            .btn-registrar {
+                font-size: 1rem;
+                padding: 16px;
+            }
+        }
+
+        /* Loading State */
+        .btn-registrar:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">DJ <span style="color: var(--dj-gold);">WASH</span></a>
+        <a href="/" class="btn-voltar">
+            <i class="fas fa-arrow-left me-2"></i>Voltar
+        </a>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
+            <div class="card-cadastro">
+                <div class="page-title">
+                    <h3>
+                        <i class="fas fa-car-wash"></i>
+                        Nova <span style="color: var(--dj-gold);">Lavagem</span>
+                    </h3>
+                </div>
+
+                <form action="/lavagens/registrar" method="POST">
+
+                    <div class="toggle-container">
+                        <label class="toggle-label">
+                            <i class="fas fa-user-check me-2"></i>
+                            O cliente já é cadastrado?
+                        </label>
+                        <div class="btn-group w-100" role="group">
+                            <input type="radio" class="btn-check" name="modo_cliente" id="modo_existente" value="existente" checked onclick="alternarCampos()">
+                            <label class="btn btn-toggle-option" for="modo_existente">
+                                <i class="fas fa-check-circle me-2"></i>SIM, já cadastrado
+                            </label>
+
+                            <input type="radio" class="btn-check" name="modo_cliente" id="modo_novo" value="novo" onclick="alternarCampos()">
+                            <label class="btn btn-toggle-option" for="modo_novo">
+                                <i class="fas fa-user-plus me-2"></i>NÃO, novo cliente
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="secao_existente">
+                        <div class="section-title">
+                            <i class="fas fa-car"></i>
+                            Selecionar Veículo
+                        </div>
+
+                        <div class="select-vehicle-card">
+                            <label class="form-label">Busque pelo modelo ou placa</label>
+                            <select name="veiculo_id" class="form-select">
+                                <option value="" disabled selected>Escolha o veículo cadastrado...</option>
+                                {% for v in veiculos %}
+                                    <option value="{{ v.id }}">
+                                        {{ v.modelo }} | {{ v.placa }} • {{ v.cliente.nome }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="secao_novo" style="display: none;">
+                        <div class="section-title">
+                            <i class="fas fa-user"></i>
+                            Dados do Novo Cliente
+                        </div>
+
+                        <div class="input-group-custom">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="fas fa-user me-2"></i>Nome Completo
+                                    </label>
+                                    <input type="text" name="nome" class="form-control" placeholder="Ex: João Silva">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">
+                                        <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                                    </label>
+                                    <input type="text" name="telefone" class="form-control" placeholder="(11) 99999-9999">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">
+                            <i class="fas fa-car-side"></i>
+                            Dados do Veículo
+                        </div>
+
+                        <div class="input-group-custom">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">
+                                        <i class="fas fa-trademark me-2"></i>Marca
+                                    </label>
+                                    <input type="text" name="marca" class="form-control" placeholder="Ex: Toyota">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">
+                                        <i class="fas fa-car me-2"></i>Modelo
+                                    </label>
+                                    <input type="text" name="modelo" class="form-control" placeholder="Ex: Corolla">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">
+                                        <i class="fas fa-id-card me-2"></i>Placa
+                                    </label>
+                                    <input type="text" name="placa" class="form-control" placeholder="ABC-1234" style="text-transform: uppercase;">
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-12">
+                                    <label class="form-label">
+                                        <i class="fas fa-layer-group me-2"></i>Categoria do Veículo
+                                    </label>
+                                    <select name="categoria" class="form-select">
+                                        <option value="hatch">🚗 Hatch (Compacto)</option>
+                                        <option value="sedan">🚙 Sedan (Médio)</option>
+                                        <option value="suv">🚐 SUV (Grande)</option>
+                                        <option value="pickup">🚚 Pickup / Van</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">
+                        <i class="fas fa-clipboard-list"></i>
+                        Serviço e Detalhes
+                    </div>
+
+                    <div class="input-group-custom">
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label class="form-label">
+                                    <i class="fas fa-spray-can me-2"></i>Tipo de Serviço
+                                </label>
+                                <select name="servico_id" class="form-select" required>
+                                    <option value="" disabled selected>Selecione o serviço...</option>
+                                    {% for s in servicos %}
+                                        <option value="{{ s.id }}">{{ s.nome }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>Nível de Sujeira
+                                </label>
+                                <select name="tipo_sujeira" class="form-select">
+                                    <option value="0">🟢 Leve (R$ 0,00)</option>
+                                    <option value="20">🟡 Média (+ R$ 20,00)</option>
+                                    <option value="50">🔴 Pesada (+ R$ 50,00)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <i class="fas fa-comment-dots me-2"></i>Observações
+                                </label>
+                                <input type="text" name="obs_entrada" class="form-control" placeholder="Ex: Risco na porta direita">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-registrar">
+                        <i class="fas fa-rocket"></i>
+                        Iniciar Serviço Agora
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function alternarCampos() {
+    const modoExistente = document.getElementById('modo_existente').checked;
+    const secaoExistente = document.getElementById('secao_existente');
+    const secaoNovo = document.getElementById('secao_novo');
+
+    if (modoExistente) {
+        secaoExistente.style.display = 'block';
+        secaoNovo.style.display = 'none';
+        document.getElementsByName('nome')[0].required = false;
+        document.getElementsByName('placa')[0].required = false;
+        document.getElementsByName('veiculo_id')[0].required = true;
+    } else {
+        secaoExistente.style.display = 'none';
+        secaoNovo.style.display = 'block';
+        document.getElementsByName('nome')[0].required = true;
+        document.getElementsByName('placa')[0].required = true;
+        document.getElementsByName('veiculo_id')[0].required = false;
+    }
+}
+
+window.onload = alternarCampos;
+</script>
+
+</body>
+</html>

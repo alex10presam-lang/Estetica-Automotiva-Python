@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJ WASH | Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --dj-dark: #0f021f;
+            --dj-card: #1a0b2e;
+            --dj-purple: #9d50bb;
+            --dj-gold: #f1d35a;
+            --dj-white: #ffffff;
+            --dj-gray: #b196d1;
+            --dj-green: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f021f 0%, #1a0435 100%);
+            color: var(--dj-white);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Navbar Premium */
+        .navbar {
+            background: rgba(22, 10, 37, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(157, 80, 187, 0.3);
+            padding: 16px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 900;
+            font-size: 1.8rem;
+            color: var(--dj-white) !important;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(157, 80, 187, 0.5);
+        }
+
+        .nav-btn {
+            color: var(--dj-white) !important;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            background: var(--dj-purple);
+            border-color: var(--dj-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(157, 80, 187, 0.4);
+        }
+
+        .btn-nova-lavagem {
+            background: linear-gradient(135deg, var(--dj-gold) 0%, #f5e083 100%);
+            color: #0f021f !important;
+            font-weight: 800;
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(241, 211, 90, 0.3);
+        }
+
+        .btn-nova-lavagem:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(241, 211, 90, 0.5);
+        }
+
+        /* Section Header */
+        .section-header {
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(157, 80, 187, 0.3);
+        }
+
+        .section-header h2 {
+            font-weight: 900;
+            font-size: 2.2rem;
+            margin: 0;
+        }
+
+        /* Cards Premium */
+        .custom-card {
+            background: linear-gradient(135deg, rgba(26, 11, 46, 0.95) 0%, rgba(31, 16, 51, 0.95) 100%);
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: 0 12px 45px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .custom-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--dj-purple), var(--dj-gold));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(157, 80, 187, 0.4);
+            border-color: var(--dj-gold);
+        }
+
+        .custom-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .id-badge {
+            background: rgba(157, 80, 187, 0.2);
+            color: var(--dj-gray);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .status-badge {
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .btn-delete {
+            background: rgba(231, 76, 60, 0.1);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background: rgba(231, 76, 60, 0.2);
+            border-color: #e74c3c;
+            transform: scale(1.1);
+        }
+
+        .vehicle-title {
+            color: var(--dj-gold);
+            font-weight: 900;
+            font-size: 1.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 15px rgba(241, 211, 90, 0.4);
+        }
+
+        .vehicle-info {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--dj-purple);
+        }
+
+        .vehicle-info .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .vehicle-info .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            color: var(--dj-gray);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            color: var(--dj-white);
+            font-weight: 700;
+        }
+
+        /* Timer Container */
+        .timer-container {
+            background: linear-gradient(135deg, #000000 0%, #1a0b2e 100%);
+            border: 2px solid var(--dj-purple);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 6px 25px rgba(157, 80, 187, 0.3);
+        }
+
+        .timer-label {
+            color: var(--dj-white);
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .timer-value {
+            color: var(--dj-gold);
+            font-size: 1.6rem;
+            font-weight: 900;
+            text-shadow: 0 2px 20px rgba(241, 211, 90, 0.6);
+        }
+
+        /* Lucro Box */
+        .lucro-box {
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1) 0%, rgba(46, 204, 113, 0.05) 100%);
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(39, 174, 96, 0.2);
+        }
+
+        .lucro-label {
+            color: var(--dj-gray);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .lucro-value {
+            color: var(--dj-green);
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-shadow: 0 2px 15px rgba(46, 204, 113, 0.6);
+        }
+
+        /* Action Buttons */
+        .btn-action {
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 12px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-checklist {
+            background: rgba(157, 80, 187, 0.1);
+            border: 1px solid var(--dj-purple);
+            color: var(--dj-purple);
+        }
+
+        .btn-checklist:hover {
+            background: var(--dj-purple);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(157, 80, 187, 0.4);
+        }
+
+        .btn-relatorio {
+            background: rgba(241, 211, 90, 0.1);
+            border: 1px solid var(--dj-gold);
+            color: var(--dj-gold);
+        }
+
+        .btn-relatorio:hover {
+            background: var(--dj-gold);
+            color: #0f021f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(241, 211, 90, 0.4);
+        }
+
+        .btn-recibo {
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid #3498db;
+            color: #3498db;
+        }
+
+        .btn-recibo:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-whatsapp {
+            background: rgba(39, 174, 96, 0.1);
+            border: 1px solid #25d366;
+            color: #25d366;
+        }
+
+        .btn-whatsapp:hover {
+            background: #25d366;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-finalizar {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            font-weight: 800;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 25px rgba(39, 174, 96, 0.4);
+            margin-top: auto;
+        }
+
+        .btn-finalizar:hover {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(39, 174, 96, 0.6);
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            background: linear-gradient(135deg, rgba(26, 11, 46, 0.98) 0%, rgba(31, 16, 51, 0.98) 100%);
+            border: 1px solid rgba(157, 80, 187, 0.4);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-header {
+            border-bottom: 1px solid rgba(157, 80, 187, 0.3);
+            padding: 20px 28px;
+        }
+
+        .modal-title {
+            color: var(--dj-gold);
+            font-weight: 800;
+            font-size: 1.3rem;
+        }
+
+        .modal-body {
+            padding: 28px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(157, 80, 187, 0.3);
+            padding: 20px 28px;
+        }
+
+        .summary-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 12px 0;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .form-label {
+            color: var(--dj-gold);
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            background: rgba(0, 0, 0, 0.4) !important;
+            border: 1px solid rgba(157, 80, 187, 0.3) !important;
+            color: var(--dj-white) !important;
+            border-radius: 10px !important;
+        }
+
+        .form-control:focus {
+            border-color: var(--dj-purple) !important;
+            box-shadow: 0 0 0 3px rgba(157, 80, 187, 0.15) !important;
+        }
+
+        .produtos-list {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            border-radius: 10px;
+            padding: 12px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .form-check {
+            margin-bottom: 8px;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--dj-purple);
+            border-color: var(--dj-purple);
+        }
+
+        .border-purple {
+            border-color: rgba(157, 80, 187, 0.4) !important;
+        }
+
+        .text-gold {
+            color: var(--dj-gold) !important;
+        }
+
+        .text-green {
+            color: var(--dj-green) !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.4rem;
+            }
+
+            .nav-btn {
+                font-size: 0.8rem;
+                padding: 8px 14px;
+            }
+
+            .section-header h2 {
+                font-size: 1.6rem;
+            }
+
+            .vehicle-title {
+                font-size: 1.3rem;
+            }
+
+            .custom-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">DJ <span style="color: var(--dj-gold);">WASH</span></a>
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="/historico" class="nav-btn">Financeiro</a>
+            <a href="/gestao" class="nav-btn">Gestão</a>
+            <a href="/clientes_gestao" class="nav-btn">Clientes</a>
+            <a href="/novo" class="btn-nova-lavagem">
+                <i class="fas fa-plus-circle me-1"></i> Nova Lavagem
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <div class="section-header">
+        <h2>Serviços <span style="color: var(--dj-gold);">Recentes</span></h2>
+    </div>
+
+    <div class="row g-4">
+        {% for lavagem in lavagens %}
+        <div class="col-lg-4 col-md-6">
+            <div class="custom-card">
+                <div class="card-header-custom">
+                    <span class="id-badge">ID #{{ lavagem.id }}</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="status-badge {% if lavagem.status == 'concluida' %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                            {{ lavagem.status }}
+                        </span>
+                        <button onclick="confirmarExclusao({{ lavagem.id }}, 'lavagens')" class="btn btn-delete">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="vehicle-title">{{ lavagem.veiculo.modelo }}</div>
+
+                <div class="vehicle-info">
+                    <div class="info-row">
+                        <span class="info-label">Placa:</span>
+                        <span class="info-value">{{ lavagem.veiculo.placa }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Cliente:</span>
+                        <span class="info-value">{{ lavagem.veiculo.cliente.nome }}</span>
+                    </div>
+                </div>
+
+                <div class="timer-container">
+                    <span class="timer-label">Tempo Decorrido</span>
+                    <div class="timer-value">{{ lavagem.tempo_total or "EM ANDAMENTO" }}</div>
+                </div>
+
+                {% if lavagem.status == 'em_andamento' %}
+                <div class="d-flex flex-column gap-2 mt-auto">
+                    <a href="/lavagem/{{ lavagem.id }}/checklist" class="btn btn-checklist btn-action w-100">
+                        <i class="fas fa-clipboard-check me-2"></i>Checklist de Entrada
+                    </a>
+
+                    <button onclick="abrirModalFinalizar({{ lavagem.id }})" class="btn-finalizar">
+                        <i class="fas fa-check-circle me-2"></i>Finalizar Serviço
+                    </button>
+                </div>
+                {% else %}
+                <div class="mt-auto">
+                    <div class="lucro-box">
+                        <div class="lucro-label">Lucro Real</div>
+                        <div class="lucro-value">R$ {{ "%.2f"|format(lavagem.lucro_real or 0) }}</div>
+                    </div>
+
+                    <a href="/lavagens/{{ lavagem.id }}/relatorio-tecnico-pdf" target="_blank" class="btn btn-relatorio btn-action w-100 mb-2">
+                        <i class="fas fa-file-contract me-2"></i>Relatório Técnico (PDF)
+                    </a>
+
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <a href="/lavagens/{{ lavagem.id }}/recibo" target="_blank" class="btn btn-recibo btn-action w-100">
+                                <i class="fas fa-receipt me-1"></i>Recibo
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <a href="https://wa.me/55{{ lavagem.veiculo.cliente.telefone }}" target="_blank" class="btn btn-whatsapp btn-action w-100">
+                                <i class="fab fa-whatsapp me-1"></i>WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal Finalizar -->
+<div class="modal fade" id="modalFinalizar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-flag-checkered me-2"></i>Finalizar Lavagem
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="formFinalizar" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <!-- Summary Box -->
+                    <div class="summary-box">
+                        <div class="summary-row">
+                            <span class="text-muted small">Valor Base (Serviço):</span>
+                            <span class="fw-bold" id="txt_valor_base">R$ 0,00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="text-muted small">Mão de Obra (<span id="txt_minutos">0</span> min):</span>
+                            <span class="fw-bold" style="color: #3498db;">+ R$ <span id="txt_custo_tempo">0.00</span></span>
+                        </div>
+                        <div id="row_extra_produtos" class="summary-row d-none">
+                            <span class="text-muted small">Produtos Adicionais:</span>
+                            <span class="fw-bold" style="color: #f39c12;">+ R$ <span id="txt_extra_produtos">0.00</span></span>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-total">
+                            <span class="text-gold fw-bold text-uppercase">Sugestão Total:</span>
+                            <h3 class="text-green mb-0 fw-bold">R$ <span id="txt_sugerido">0.00</span></h3>
+                        </div>
+                    </div>
+
+                    <!-- Produtos -->
+                    <div class="mb-3">
+                        <label class="form-label">Produtos Utilizados:</label>
+                        <div id="lista_produtos_modal" class="produtos-list"></div>
+                    </div>
+
+                    <!-- Valor Final -->
+                    <div class="mb-3">
+                        <label class="form-label">Valor Final Cobrado (R$):</label>
+                        <input type="number" step="0.01" name="valor_final_cobrado" id="input_valor_final" class="form-control form-control-lg text-center fw-bold">
+                    </div>
+
+                    <!-- Fotos -->
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="small text-muted d-block">Foto Antes</label>
+                            <input type="file" name="foto_antes" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <label class="small text-muted d-block">Foto Depois</label>
+                            <input type="file" name="foto_depois" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn-finalizar py-3">
+                        <i class="fas fa-save me-2"></i>Concluir Serviço
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let valorBaseOriginal = 0;
+    let custoTempoCalculado = 0;
+
+    async function confirmarExclusao(id, tipo) {
+        if (confirm("Deseja realmente excluir este registro?")) {
+            try {
+                const res = await fetch(`/${tipo}/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    location.reload();
+                } else {
+                    alert('Erro ao excluir. Tente novamente.');
+                }
+            } catch(error) {
+                alert('Erro de conexão. Verifique sua internet.');
+            }
+        }
+    }
+
+    async function abrirModalFinalizar(lavagemId) {
+        try {
+            const response = await fetch(`/lavagens/${lavagemId}/dados-finalizacao`);
+            const data = await response.json();
+
+            valorBaseOriginal = data.valor_base;
+            custoTempoCalculado = data.custo_mao_de_obra;
+
+            document.getElementById('txt_valor_base').innerText = `R$ ${data.valor_base.toFixed(2)}`;
+            document.getElementById('txt_minutos').innerText = data.minutos;
+            document.getElementById('txt_custo_tempo').innerText = data.custo_mao_de_obra.toFixed(2);
+            document.getElementById('txt_sugerido').innerText = data.sugerido.toFixed(2);
+            document.getElementById('input_valor_final').value = data.sugerido.toFixed(2);
+            document.getElementById('formFinalizar').action = `/lavagens/${lavagemId}/finalizar`;
+
+            const container = document.getElementById('lista_produtos_modal');
+            container.innerHTML = '';
+            data.todos_produtos.forEach(p => {
+                container.innerHTML += `
+                    <div class="form-check small mb-2">
+                        <input class="form-check-input check-produto" type="checkbox" name="produtos_ids" value="${p.id}" id="p${p.id}" data-custo="${p.custo_por_dose}" onchange="atualizarSomaTotal()">
+                        <label class="form-check-label text-white" for="p${p.id}">
+                            ${p.nome} <span class="text-success">(+R$ ${p.custo_por_dose.toFixed(2)})</span>
+                        </label>
+                    </div>`;
+            });
+
+            new bootstrap.Modal(document.getElementById('modalFinalizar')).show();
+        } catch(error) {
+            alert('Erro ao carregar dados. Tente novamente.');
+            console.error(error);
+        }
+    }
+
+    function atualizarSomaTotal() {
+        let extraProdutos = 0;
+        document.querySelectorAll('.check-produto:checked').forEach(c => {
+            extraProdutos += parseFloat(c.getAttribute('data-custo'));
+        });
+
+        const rowProd = document.getElementById('row_extra_produtos');
+        if (extraProdutos > 0) {
+            rowProd.classList.remove('d-none');
+            document.getElementById('txt_extra_produtos').innerText = extraProdutos.toFixed(2);
+        } else {
+            rowProd.classList.add('d-none');
+        }
+
+        const novoTotal = valorBaseOriginal + custoTempoCalculado + extraProdutos;
+        document.getElementById('txt_sugerido').innerText = novoTotal.toFixed(2);
+        document.getElementById('input_valor_final').value = novoTotal.toFixed(2);
+    }
+</script>
+</body>
+</html>

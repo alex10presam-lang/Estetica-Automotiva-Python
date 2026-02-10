@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico do Cliente | DJ WASH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dj-dark: #0f021f;
+            --dj-card: #1a0b2e;
+            --dj-purple: #9d50bb;
+            --dj-gold: #f1d35a;
+            --dj-white: #ffffff;
+            --dj-gray: #b196d1;
+            --dj-green: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f021f 0%, #1a0435 100%);
+            color: var(--dj-white);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Navbar Premium */
+        .navbar {
+            background: rgba(22, 10, 37, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(157, 80, 187, 0.3);
+            padding: 16px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            font-weight: 900;
+            font-size: 1.8rem;
+            color: var(--dj-white) !important;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(157, 80, 187, 0.5);
+        }
+
+        .nav-btn {
+            color: var(--dj-white) !important;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            background: var(--dj-purple);
+            border-color: var(--dj-purple);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(157, 80, 187, 0.4);
+        }
+
+        /* Profile Header */
+        .profile-header {
+            background: linear-gradient(135deg, rgba(26, 11, 46, 0.95) 0%, rgba(31, 16, 51, 0.95) 100%);
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -15%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(157, 80, 187, 0.15), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .profile-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .client-label {
+            color: var(--dj-gray);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .client-name {
+            color: var(--dj-gold);
+            font-weight: 900;
+            font-size: 2.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            text-shadow: 0 4px 25px rgba(241, 211, 90, 0.4);
+            line-height: 1.2;
+        }
+
+        .client-phone {
+            color: var(--dj-white);
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .client-phone i {
+            color: #25d366;
+            font-size: 1.4rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            border-radius: 16px;
+            padding: 24px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--dj-purple), var(--dj-gold));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--dj-purple);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(157, 80, 187, 0.35);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-label {
+            color: var(--dj-gray);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .stat-val {
+            color: var(--dj-gold);
+            font-size: 2.2rem;
+            font-weight: 900;
+            display: block;
+            text-shadow: 0 2px 15px rgba(241, 211, 90, 0.5);
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(157, 80, 187, 0.3);
+        }
+
+        .section-title {
+            color: var(--dj-white);
+            font-weight: 800;
+            font-size: 1.6rem;
+            letter-spacing: 0.5px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            color: var(--dj-purple);
+            margin-right: 14px;
+            font-size: 1.7rem;
+        }
+
+        /* History Card Premium */
+        .history-card {
+            background: linear-gradient(135deg, rgba(26, 11, 46, 0.6) 0%, rgba(31, 16, 51, 0.6) 100%);
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            border-left: 5px solid var(--dj-purple);
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .history-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--dj-purple), var(--dj-gold));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .history-card:hover {
+            transform: translateX(12px);
+            background: linear-gradient(135deg, rgba(157, 80, 187, 0.08) 0%, rgba(26, 11, 46, 0.8) 100%);
+            box-shadow: 0 10px 40px rgba(157, 80, 187, 0.35);
+            border-left-color: var(--dj-gold);
+        }
+
+        .history-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Date Box */
+        .date-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(157, 80, 187, 0.3);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .history-card:hover .date-box {
+            border-color: var(--dj-purple);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .date-label {
+            color: var(--dj-gray);
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .date-value {
+            color: var(--dj-white);
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .time-value {
+            color: var(--dj-purple);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* Vehicle Info */
+        .vehicle-section {
+            padding-left: 20px;
+            border-left: 2px solid rgba(157, 80, 187, 0.2);
+        }
+
+        .vehicle-model {
+            color: var(--dj-gold);
+            font-weight: 900;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 15px rgba(241, 211, 90, 0.3);
+        }
+
+        .vehicle-plate {
+            color: var(--dj-gray);
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .vehicle-plate i {
+            color: var(--dj-purple);
+        }
+
+        /* Service Section */
+        .service-section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(157, 80, 187, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .badge-service {
+            background: linear-gradient(135deg, var(--dj-purple) 0%, #b06fd4 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(157, 80, 187, 0.3);
+        }
+
+        .insumos-label {
+            color: var(--dj-gray);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .product-tag {
+            display: inline-block;
+            background: rgba(157, 80, 187, 0.15);
+            border: 1px solid rgba(157, 80, 187, 0.4);
+            color: var(--dj-white);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-top: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .product-tag:hover {
+            background: rgba(157, 80, 187, 0.25);
+            border-color: var(--dj-purple);
+            transform: translateY(-2px);
+        }
+
+        /* Value Section */
+        .value-section {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.08) 0%, rgba(39, 174, 96, 0.05) 100%);
+            border: 1px solid rgba(46, 204, 113, 0.3);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: right;
+        }
+
+        .value-label {
+            color: var(--dj-gray);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .value-amount {
+            color: var(--dj-green);
+            font-size: 2rem;
+            font-weight: 900;
+            text-shadow: 0 2px 15px rgba(46, 204, 113, 0.5);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .value-profit {
+            color: var(--dj-gray);
+            font-size: 0.75rem;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .value-profit-amount {
+            color: #5dade2;
+            font-weight: 800;
+        }
+
+        .btn-recibo {
+            background: rgba(241, 211, 90, 0.1);
+            border: 1px solid var(--dj-gold);
+            color: var(--dj-gold);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-recibo:hover {
+            background: var(--dj-gold);
+            color: #0f021f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(241, 211, 90, 0.4);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: rgba(26, 11, 46, 0.5);
+            border: 2px dashed rgba(157, 80, 187, 0.3);
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--dj-purple);
+            opacity: 0.3;
+            margin-bottom: 20px;
+        }
+
+        .empty-state p {
+            color: var(--dj-gray);
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .vehicle-section {
+                padding-left: 0;
+                border-left: none;
+                margin-top: 16px;
+                padding-top: 16px;
+                border-top: 1px solid rgba(157, 80, 187, 0.2);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .client-name {
+                font-size: 2rem;
+            }
+
+            .profile-header {
+                padding: 28px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .history-card {
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .vehicle-model {
+                font-size: 1.2rem;
+            }
+
+            .value-amount {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="/">DJ <span style="color: var(--dj-gold);">WASH</span></a>
+        <a href="/clientes_gestao" class="nav-btn">
+            <i class="fas fa-arrow-left me-2"></i>Voltar
+        </a>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <div class="profile-header">
+        <div class="row align-items-center profile-content">
+            <div class="col-md-6">
+                <span class="client-label">Cliente</span>
+                <h1 class="client-name">{{ cliente.nome }}</h1>
+                <div class="client-phone">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>{{ cliente.telefone }}</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-label">Visitas</span>
+                        <span class="stat-val">{{ lavagens|length }}</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Total Gasto</span>
+                        <span class="stat-val" style="font-size: 1.6rem;">R$ {{ total_pago }}</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Veículos</span>
+                        <span class="stat-val">{{ cliente.veiculos|length }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-header">
+        <h4 class="section-title">
+            <i class="fas fa-history"></i>
+            Linha do Tempo
+        </h4>
+    </div>
+
+    {% if lavagens %}
+        {% for l in lavagens %}
+        <div class="history-card">
+            <div class="row align-items-center g-4">
+                <div class="col-md-2">
+                    <div class="date-box">
+                        <div class="date-label">Data</div>
+                        <div class="date-value">{{ l.data_fim.strftime('%d/%m/%Y') if l.data_fim else '--/--/----' }}</div>
+                        <div class="time-value">{{ l.tempo_total or '00:00' }} h</div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="vehicle-section">
+                        <div class="vehicle-model">{{ l.veiculo.modelo|upper }}</div>
+                        <div class="vehicle-plate">
+                            <i class="fas fa-id-card"></i>
+                            {{ l.veiculo.placa }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="service-section">
+                        <div class="badge-service">
+                            <i class="fas fa-check-circle me-1"></i>
+                            Serviço Concluído
+                        </div>
+                        <span class="insumos-label">Insumos utilizados:</span>
+                        <div class="info-insumos">
+                            {% set produtos = l.produtos_usados|replace("[", "")|replace("]", "")|replace("'", "")|replace('"', "") %}
+                            {% if produtos and produtos != "" %}
+                                <span class="product-tag">
+                                    <i class="fas fa-flask me-1"></i>{{ produtos }}
+                                </span>
+                            {% else %}
+                                <span class="text-muted small">Processo Padrão</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="value-section">
+                        <span class="value-label">Valor Pago</span>
+                        <span class="value-amount">R$ {{ "%.2f"|format(l.valor_total or 0.0) }}</span>
+                        <span class="value-profit">
+                            Lucro: <span class="value-profit-amount">R$ {{ "%.2f"|format(l.lucro_real or 0.0) }}</span>
+                        </span>
+                        <a href="/lavagens/{{ l.id }}/recibo" target="_blank" class="btn-recibo">
+                            <i class="fas fa-file-pdf me-1"></i> Recibo
+                        </a>
+                        <a href="/lavagem/{{ l.id }}/detalhes" class="btn btn-sm btn-primary">
+   Ver Relatório Completo
+</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-box-open"></i>
+            <p>Ainda não há lavagens concluídas para este cliente.</p>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
