@@ -1,7 +1,9 @@
-📝 DJ WASH - Gestão de Estética Automotiva
+DJ WASH - Gestão de Estética Automotiva
+
 O DJ WASH é um sistema de gestão especializado para centros de detalhamento automotivo. Ele permite o controle total desde a entrada do veículo (checklist de avarias) até a finalização do serviço com cálculos de lucro real, gestão de insumos e geração de relatórios digitais.
 
-🚀 Funcionalidades principais
+Funcionalidades principais
+
 Checklist Inteligente: Registro fotográfico de avarias e nível de combustível na entrada.
 
 Gestão Financeira: * Cálculo automático de custo de mão de obra por tempo decorrido.
@@ -42,10 +44,8 @@ estetica_automotiva/
 Clone o repositório:
 
 Bash
-git clone https://github.com/alex10presam-lang/Estetica-Automotiva-Python.git
 
-
-Crie um ambiente virtual:
+git clone https://github.com/alex10presam-lang/Estetica-Automotiva-Python.gitCrie um ambiente virtual:
 
 Bash
 
