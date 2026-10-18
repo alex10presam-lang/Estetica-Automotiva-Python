@@ -6,349 +6,12 @@
     <title>Financeiro Pro | DJ WASH</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        :root {
-            --dj-dark: #0f021f;
-            --dj-card: #1a0b2e;
-            --dj-purple: #9d50bb;
-            --dj-gold: #f1d35a;
-            --dj-white: #ffffff;
-            --dj-gray: #b196d1;
-            --dj-green: #2ecc71;
-            --dj-red: #e74c3c;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0f021f 0%, #1a0435 100%);
-            color: var(--dj-white);
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            min-height: 100vh;
-        }
-
-        /* Header */
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid rgba(157, 80, 187, 0.3);
-        }
-
-        .page-title {
-            font-weight: 900;
-            font-size: 2.2rem;
-            margin: 0;
-        }
-
-        .btn-voltar {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--dj-white);
-            padding: 10px 24px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .btn-voltar:hover {
-            background: var(--dj-purple);
-            border-color: var(--dj-purple);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, rgba(26, 11, 46, 0.9) 0%, rgba(31, 16, 51, 0.9) 100%);
-            border: 1px solid rgba(157, 80, 187, 0.3);
-            border-radius: 18px;
-            padding: 24px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--dj-purple), var(--dj-gold));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(157, 80, 187, 0.3);
-        }
-
-        .stat-card:hover::before {
-            opacity: 1;
-        }
-
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 16px;
-        }
-
-        .icon-revenue {
-            background: rgba(46, 204, 113, 0.15);
-            color: var(--dj-green);
-        }
-
-        .icon-ticket {
-            background: rgba(241, 196, 15, 0.15);
-            color: var(--dj-gold);
-        }
-
-        .icon-cost {
-            background: rgba(231, 76, 60, 0.15);
-            color: var(--dj-red);
-        }
-
-        .icon-margin {
-            background: rgba(52, 152, 219, 0.15);
-            color: #3498db;
-        }
-
-        .stat-label {
-            color: var(--dj-gray);
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 900;
-            line-height: 1.2;
-        }
-
-        .value-green {
-            color: var(--dj-green);
-            text-shadow: 0 2px 15px rgba(46, 204, 113, 0.5);
-        }
-
-        .value-gold {
-            color: var(--dj-gold);
-            text-shadow: 0 2px 15px rgba(241, 211, 90, 0.5);
-        }
-
-        .value-red {
-            color: var(--dj-red);
-            text-shadow: 0 2px 15px rgba(231, 76, 60, 0.5);
-        }
-
-        .value-blue {
-            color: #3498db;
-            text-shadow: 0 2px 15px rgba(52, 152, 219, 0.5);
-        }
-
-        /* Charts Section */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-
-        .chart-container {
-            background: linear-gradient(135deg, rgba(26, 11, 46, 0.9) 0%, rgba(31, 16, 51, 0.9) 100%);
-            border: 1px solid rgba(157, 80, 187, 0.3);
-            border-radius: 20px;
-            padding: 28px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(157, 80, 187, 0.3);
-        }
-
-        .chart-title {
-            color: var(--dj-gold);
-            font-weight: 800;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chart-title i {
-            font-size: 1.3rem;
-        }
-
-        /* Full Width Chart */
-        .chart-full {
-            grid-column: 1 / -1;
-        }
-
-        /* Table Section */
-        .table-section {
-            background: linear-gradient(135deg, rgba(26, 11, 46, 0.9) 0%, rgba(31, 16, 51, 0.9) 100%);
-            border: 1px solid rgba(157, 80, 187, 0.3);
-            border-radius: 20px;
-            padding: 32px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            margin-top: 40px;
-        }
-
-        .table-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 2px solid rgba(157, 80, 187, 0.3);
-        }
-
-        .table-title {
-            color: var(--dj-gold);
-            font-weight: 800;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .table-custom {
-            color: var(--dj-white);
-            margin: 0;
-        }
-
-        .table-custom thead th {
-            background: rgba(0, 0, 0, 0.4);
-            color: var(--dj-gold);
-            font-weight: 700;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: none;
-            padding: 16px 12px;
-        }
-
-        .table-custom tbody tr {
-            border-bottom: 1px solid rgba(157, 80, 187, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .table-custom tbody tr:hover {
-            background: rgba(157, 80, 187, 0.08);
-            transform: translateX(4px);
-        }
-
-        .table-custom tbody td {
-            padding: 20px 12px;
-            vertical-align: middle;
-            font-size: 0.9rem;
-            border: none;
-        }
-
-        .btn-recibo {
-            background: rgba(52, 152, 219, 0.1);
-            border: 1px solid #3498db;
-            color: #3498db;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-recibo:hover {
-            background: #3498db;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* Insights Cards */
-        .insights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .insight-card {
-            background: linear-gradient(135deg, rgba(157, 80, 187, 0.15), rgba(241, 211, 90, 0.05));
-            border: 1px solid rgba(157, 80, 187, 0.3);
-            border-radius: 16px;
-            padding: 20px;
-        }
-
-        .insight-title {
-            color: var(--dj-gold);
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .insight-value {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--dj-white);
-            margin-bottom: 8px;
-        }
-
-        .insight-description {
-            color: var(--dj-gray);
-            font-size: 0.8rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .page-title {
-                font-size: 1.6rem;
-            }
-
-            .stat-value {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="/static/css/historico.css">
+<link rel="stylesheet" href="/static/css/studio.css">
 </head>
 <body>
+<div class="portfolio-notice">DJ WASH / PORTFÓLIO <span>Demonstração local · use dados fictícios</span></div>
 
 <div class="container py-5">
     <div class="page-header">
@@ -391,51 +54,22 @@
             <div class="stat-icon icon-margin">
                 <i class="fas fa-percentage"></i>
             </div>
-            <div class="stat-label">Margem Bruta</div>
+            <div class="stat-label">Margem dos serviços</div>
             <div class="stat-value value-blue">
-                {{ "%.1f"|format((total_faturado - total_produtos) / total_faturado * 100) if total_faturado > 0 else 0 }}%
+                {{ "%.1f"|format((total_faturado - total_produtos - total_mao_obra) / total_faturado * 100) if total_faturado > 0 else 0 }}%
             </div>
         </div>
     </div>
 
-    <!-- Insights Cards -->
-    <div class="insights-grid">
-        <div class="insight-card">
-            <div class="insight-title">
-                <i class="fas fa-trophy"></i>
-                Melhor Dia da Semana
-            </div>
-            <div class="insight-value">Sábado</div>
-            <div class="insight-description">Maior faturamento médio por serviço</div>
-        </div>
-
-        <div class="insight-card">
-            <div class="insight-title">
-                <i class="fas fa-chart-line"></i>
-                Crescimento Mensal
-            </div>
-            <div class="insight-value">+15.3%</div>
-            <div class="insight-description">Comparado ao mês anterior</div>
-        </div>
-
-        <div class="insight-card">
-            <div class="insight-title">
-                <i class="fas fa-star"></i>
-                Serviço Mais Rentável
-            </div>
-            <div class="insight-value">Lavagem Completa</div>
-            <div class="insight-description">Maior margem de lucro</div>
-        </div>
-    </div>
-
+    <p class="financial-note">Resultado por serviço = valor cobrado − insumos − mão de obra. Custos fixos, impostos e taxas não estão deduzidos.</p>
     <!-- Charts Grid -->
-    <div class="charts-grid">
+    <div class="charts-grid financial-layout">
         <!-- Evolução Temporal -->
         <div class="chart-container chart-full">
             <div class="chart-header">
                 <div class="chart-title">
                     <i class="fas fa-chart-area"></i>
-                    Evolução do Faturamento
+                    Últimos 7 serviços concluídos
                 </div>
             </div>
             <canvas id="revenueChart" height="80"></canvas>
@@ -463,28 +97,7 @@
             <canvas id="categoryChart"></canvas>
         </div>
 
-        <!-- Tendência de Lucro -->
-        <div class="chart-container">
-            <div class="chart-header">
-                <div class="chart-title">
-                    <i class="fas fa-trending-up"></i>
-                    Tendência de Lucro Líquido
-                </div>
-            </div>
-            <canvas id="profitTrendChart"></canvas>
         </div>
-
-        <!-- Performance Semanal -->
-        <div class="chart-container">
-            <div class="chart-header">
-                <div class="chart-title">
-                    <i class="fas fa-calendar-week"></i>
-                    Performance por Dia da Semana
-                </div>
-            </div>
-            <canvas id="weeklyChart"></canvas>
-        </div>
-    </div>
 
     <!-- Table Section -->
     <div class="table-section">
@@ -503,7 +116,7 @@
                         <th>Veículo</th>
                         <th>Insumos</th>
                         <th>Valor Cobrado</th>
-                        <th>Lucro Líquido</th>
+                        <th>Resultado do serviço</th>
                         <th class="text-center">Ações</th>
                     </tr>
                 </thead>
@@ -530,7 +143,7 @@
                             <span class="value-green fw-bold">R$ {{ "%.2f"|format(l.lucro_real or 0) }}</span>
                         </td>
                         <td class="text-center">
-                            <a href="/lavagens/{{ l.id }}/recibo" target="_blank" class="btn-recibo">
+                            <a href="/lavagens/{{ l.id }}/recibo" target="_blank" rel="noopener noreferrer" class="btn-recibo">
                                 <i class="fas fa-file-invoice me-1"></i>Recibo
                             </a>
                         </td>
@@ -544,10 +157,11 @@
 
 <script>
     // Configurações globais do Chart.js
-    Chart.defaults.color = '#b196d1';
+    Chart.defaults.color = '#b4c6c7';
+    Chart.defaults.animation = false;
     Chart.defaults.borderColor = 'rgba(157, 80, 187, 0.2)';
 
-    // 1. Gráfico de Evolução do Faturamento (Área)
+    // 1. Gráfico de Últimos 7 serviços concluídos (Área)
     new Chart(document.getElementById('revenueChart'), {
         type: 'line',
         data: {
@@ -608,7 +222,7 @@
                 },
                 {
                     label: 'Custos',
-                    data: [15, 20, 18, 22, 19, 16, 21],
+                    data: {{ custos_grafico|tojson }},
                     backgroundColor: 'rgba(231, 76, 60, 0.8)',
                     borderColor: '#e74c3c',
                     borderWidth: 2
@@ -641,7 +255,7 @@
         data: {
             labels: ['Hatch', 'Sedan', 'SUV', 'Pickup'],
             datasets: [{
-                data: [30, 40, 20, 10],
+                data: {{ categorias_grafico|tojson }},
                 backgroundColor: [
                     'rgba(241, 211, 90, 0.8)',
                     'rgba(157, 80, 187, 0.8)',
@@ -662,7 +276,7 @@
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return context.label + ': ' + context.parsed + '%';
+                            return context.label + ': ' + 'R$ ' + context.parsed.toFixed(2);
                         }
                     }
                 }
@@ -670,73 +284,6 @@
         }
     });
 
-    // 4. Gráfico de Tendência de Lucro (Linha Suave)
-    new Chart(document.getElementById('profitTrendChart'), {
-        type: 'line',
-        data: {
-            labels: {{ labels_grafico|tojson }},
-            datasets: [{
-                label: 'Lucro Líquido',
-                data: [80, 95, 110, 125, 115, 130, 145],
-                borderColor: '#f1d35a',
-                backgroundColor: 'rgba(241, 211, 90, 0.1)',
-                fill: true,
-                tension: 0.4,
-                borderWidth: 3,
-                pointBackgroundColor: '#f1d35a',
-                pointBorderColor: '#1a0b2e',
-                pointBorderWidth: 2,
-                pointRadius: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: false }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: { color: 'rgba(157, 80, 187, 0.1)' }
-                },
-                x: {
-                    grid: { display: false }
-                }
-            }
-        }
-    });
-
-    // 5. Gráfico de Performance Semanal (Radar)
-    new Chart(document.getElementById('weeklyChart'), {
-        type: 'radar',
-        data: {
-            labels: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
-            datasets: [{
-                label: 'Faturamento Médio',
-                data: [65, 70, 75, 80, 85, 95, 60],
-                borderColor: '#9d50bb',
-                backgroundColor: 'rgba(157, 80, 187, 0.2)',
-                borderWidth: 2,
-                pointBackgroundColor: '#9d50bb',
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: false }
-            },
-            scales: {
-                r: {
-                    beginAtZero: true,
-                    grid: { color: 'rgba(157, 80, 187, 0.2)' },
-                    angleLines: { color: 'rgba(157, 80, 187, 0.2)' },
-                    pointLabels: { color: '#b196d1', font: { size: 11 } }
-                }
-            }
-        }
-    });
 </script>
 </body>
 </html>
