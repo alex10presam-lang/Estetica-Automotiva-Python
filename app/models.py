@@ -32,6 +32,7 @@ class ServicoCatalogo(Base):
     preco_pickup = Column(Float)
     produtos_fixos = relationship("Produto", secondary="servico_produtos")
 
+
 class ServicoProduto(Base):
     __tablename__ = "servico_produtos"
     servico_id = Column(Integer, ForeignKey("servicos_catalogo.id"), primary_key=True)
@@ -95,7 +96,6 @@ class Lavagem(Base):
     checklist_objetos = Column(String, nullable=True)  # Itens de valor deixados
     checklist_pneus = Column(String, nullable=True)  # Estado dos pneus
     foto_entrada_url = Column(String, nullable=True)  # Caminho da foto principal
-
 
     status = Column(String, default="em_andamento")
     tipo_sujeira = Column(String)

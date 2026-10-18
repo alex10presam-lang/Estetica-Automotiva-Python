@@ -1,0 +1,50 @@
+:root { --dj-dark:#121a20; --dj-card:#1b262e; --dj-purple:#528b8d; --dj-gold:#e4b580; --dj-gray:#b4c6c7; --dj-green:#90d7b6; }
+body { background:#121a20; font-family: 'Segoe UI', sans-serif; }
+.portfolio-notice { padding:9px max(24px,calc((100% - 1100px)/2)); background:#0c1318; color:#e4b580; font:11px/1.5 monospace; letter-spacing:1.6px; display:flex; justify-content:space-between; gap:12px; }
+.portfolio-notice span {color:#a7b6bd; letter-spacing:.3px;}
+.navbar { background:#121a20; border-bottom:1px solid #34414a; box-shadow:none; backdrop-filter:none; }
+.navbar-brand {text-shadow:none; letter-spacing:-1px;}
+.workshop-intro {display:flex; justify-content:space-between; gap:24px; align-items:center; padding:30px 0 40px;}
+.eyebrow {font:11px monospace; letter-spacing:2px; color:#e4b580; margin-bottom:18px;}
+.workshop-intro h1 {font-size:clamp(2rem,4vw,3.6rem); font-weight:650; letter-spacing:-2px; max-width:620px;}
+.workshop-intro p:not(.eyebrow) {color:#b4c6c7; margin:18px 0 0; max-width:500px; line-height:1.7;}
+.workshop-mark {font:italic 700 90px/1 'Segoe UI',sans-serif; letter-spacing:-10px; color:#e4b580; border-left:1px solid #34414a; padding:20px 35px;}
+.workshop-mark span {display:block; font:9px monospace; letter-spacing:2px; margin-top:14px; color:#b4c6c7;}
+.operation-summary {display:grid;grid-template-columns:repeat(3,1fr);border:1px solid #34414a;margin-bottom:36px;}
+.operation-summary div {padding:18px 24px; display:flex;align-items:center;gap:16px;}
+.operation-summary div+div {border-left:1px solid #34414a;}
+.operation-summary strong {font-size:30px;font-weight:500;color:#e4b580;}
+.operation-summary span {font-size:13px;color:#b4c6c7;}
+.section-header {border-bottom:1px solid #34414a; margin-bottom:22px; padding-bottom:16px;}
+.section-header h2 {font-size:1.35rem;font-weight:600;}
+.custom-card,.card-cadastro,.stat-card,.chart-container,.section-card {background:#1b262e; border:1px solid #34414a;box-shadow:none;border-radius:10px;}
+.custom-card {padding:24px;}
+.custom-card:hover {transform:none;box-shadow:none;border-color:#739394;}
+.custom-card::before {display:none;}
+.vehicle-title {font-size:1.6rem;letter-spacing:-.6px;}
+.timer-container,.summary-box {background:#121a20; border-color:#34414a;}
+.id-badge {background:#25363e;color:#b4c6c7;}
+.btn-nova-lavagem,.btn-finalizar {background:#e4b580;color:#121a20;box-shadow:none;}
+.btn-finalizar:hover,.btn-nova-lavagem:hover {background:#f1c99b;transform:none;box-shadow:none;color:#121a20;}
+.modal-content {background:#1b262e;color:#edf2f4;}
+.form-control,.form-select {background-color:#121a20;color:#edf2f4;border-color:#60747d;}
+.form-control:focus,.form-select:focus {background-color:#17232a;color:#fff;border-color:#e4b580;box-shadow:0 0 0 3px #e4b58033;}
+.form-control::placeholder {color:#95a9b2;}
+.text-muted {color:#afbec5 !important;}
+.empty-state {padding:50px 24px;border:1px dashed #60747d;text-align:center;}
+.empty-state p,.financial-note {color:#b4c6c7;}
+.vehicle-title,.timer-value,.lucro-value,.stat-value {text-shadow:none;font-weight:650;}
+.timer-container {box-shadow:none;}
+.btn-checklist {color:#b4d5d6;background:#23363e;border-color:#698b8d;}
+.table-section {background:#1b262e;border-color:#34414a;box-shadow:none;}
+.table {--bs-table-bg:#1b262e;--bs-table-color:#edf2f4;--bs-table-border-color:#34414a;}
+.table-custom tbody tr:hover {background:#23363e;}
+.table-custom th {background:#121a20;}
+.financial-layout {display:grid;grid-template-columns:1.3fr 1fr;gap:24px;margin-bottom:24px;}
+.financial-layout .chart-container {min-width:0;}
+.financial-layout canvas {max-height:320px;}
+@media(max-width:767px) {.financial-layout {grid-template-columns:1fr;}}
+:focus-visible {outline:3px solid #e4b580;outline-offset:4px;}
+@media(max-width:767px) { .portfolio-notice {padding:8px 16px;flex-direction:column;gap:2px;} .navbar .container {gap:16px;} .workshop-mark {display:none;} .workshop-intro {padding:12px 0 24px;} .workshop-intro h1 {letter-spacing:-1px;} .operation-summary div {padding:12px;display:block;} .operation-summary span {display:block;font-size:11px;} .custom-card {padding:20px;} }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after {animation:none !important;transition:none !important;} }
+@media print { .portfolio-notice,.navbar,.btn,button {display:none !important;} body {background:white;color:black;} }

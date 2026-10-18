@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.idea/
+.env
+*.db
+*.db-*
+data/
+app/static/uploads/
+app/pix_qr.png
+/relatorio*.pdf
