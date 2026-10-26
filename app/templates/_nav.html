@@ -1,0 +1,14 @@
+{# Cabeçalho compartilhado. Defina `active` antes do include: painel, financeiro, gestao, clientes, nova. #}
+<div class="portfolio-notice">DJ WASH / PORTFÓLIO <span>Demonstração local · use dados fictícios</span></div>
+<nav class="navbar navbar-dark app-nav" aria-label="Navegação principal">
+    <div class="container">
+        <a class="navbar-brand" href="/">DJ <span>WASH</span></a>
+        <div class="app-nav-links">
+            <a href="/" class="nav-btn{% if active == 'painel' %} is-active{% endif %}"{% if active == 'painel' %} aria-current="page"{% endif %}><i class="fas fa-gauge-high" aria-hidden="true"></i><span>Painel</span></a>
+            <a href="/historico" class="nav-btn{% if active == 'financeiro' %} is-active{% endif %}"{% if active == 'financeiro' %} aria-current="page"{% endif %}><i class="fas fa-chart-line" aria-hidden="true"></i><span>Financeiro</span></a>
+            <a href="/gestao" class="nav-btn{% if active == 'gestao' %} is-active{% endif %}"{% if active == 'gestao' %} aria-current="page"{% endif %}><i class="fas fa-sliders" aria-hidden="true"></i><span>Gestão</span></a>
+            <a href="/clientes_gestao" class="nav-btn{% if active == 'clientes' %} is-active{% endif %}"{% if active == 'clientes' %} aria-current="page"{% endif %}><i class="fas fa-users" aria-hidden="true"></i><span>Clientes</span></a>
+            <a href="/novo" class="btn-nova-lavagem{% if active == 'nova' %} is-active{% endif %}"><i class="fas fa-plus" aria-hidden="true"></i><span>Nova lavagem</span></a>
+        </div>
+    </div>
+</nav>

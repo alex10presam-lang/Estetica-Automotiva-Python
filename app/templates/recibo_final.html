@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatório de Entrega - DJ WASH</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="/static/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="/static/css/recibo_final.css">
 <link rel="stylesheet" href="/static/css/studio.css">
 </head>
@@ -49,10 +49,10 @@
     <div class="row">
         <div class="col-md-8">
             <div class="info-box shadow-sm">
-                <h4 class="text-primary"><i class="fas fa-car"></i> Detalhes do Veículo</h4>
+                <h4 class="receipt-title"><i class="fas fa-car"></i> Detalhes do Veículo</h4>
                 <p><strong>Modelo:</strong> {{ l.veiculo.marca }} {{ l.veiculo.modelo }} | <strong>Placa:</strong> {{ l.veiculo.placa }}</p>
                 <hr>
-                <h4 class="text-primary"><i class="fas fa-clipboard-check"></i> Checklist e Avarias</h4>
+                <h4 class="receipt-title"><i class="fas fa-clipboard-check"></i> Checklist e Avarias</h4>
                 <p><strong>Avarias observadas:</strong> {{ l.checklist_avarias or 'Nenhuma avaria registrada.' }}</p>
                 <p><strong>Nível de Combustível:</strong> {{ l.checklist_combustivel or 'Não informado' }}</p>
                 <p><strong>Insumos Utilizados:</strong> {{ l.produtos_usados }}</p>
@@ -64,7 +64,7 @@
                 <h4 class="text-success"><i class="fas fa-stopwatch"></i> Tempo Total</h4>
                 <h2 class="display-6">{{ l.tempo_total }}</h2>
                 <p class="text-muted">Valor do serviço:</p>
-                <h3 class="text-dark">R$ {{ "%.2f"|format(l.valor_total) }}</h3>
+                <h3 class="text-dark">{{ (l.valor_total)|brl }}</h3>
             </div>
         </div>
     </div>

@@ -25,6 +25,21 @@ def money(value):
     return value
 
 
+def brl(value):
+    """Formata um valor no padrão brasileiro: R$ 1.234,56."""
+    number = float(value or 0)
+    text = f"{abs(number):,.2f}".replace(",", "_").replace(".", ",").replace("_", ".")
+    return f"-R$ {text}" if number < 0 else f"R$ {text}"
+
+
+def whatsapp_number(phone):
+    """Somente dígitos, com DDI 55 quando o número ainda não o possui."""
+    digits = "".join(ch for ch in str(phone or "") if ch.isdigit())
+    if digits and not (digits.startswith("55") and len(digits) >= 12):
+        digits = "55" + digits
+    return digits
+
+
 def dose_cost(product):
     return (
         product.preco_compra / product.ml_total * product.ml_por_uso

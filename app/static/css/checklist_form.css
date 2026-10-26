@@ -1,7 +1,7 @@
-:root { --dj-purple: #9d50bb; --dj-gold: #f1d35a; --dj-dark: #0f021f; }
+:root { --dj-purple: #528b8d; --dj-gold: #e4b580; --dj-dark: #121a20; }
         body { background-color: var(--dj-dark); color: white; font-family: 'Segoe UI', sans-serif; }
-        .card-custom { background: #1a0b2e; border: 1px solid var(--dj-purple); border-radius: 15px; }
-        .header-box { background: linear-gradient(45deg, #6a1b9a, #9d50bb); padding: 20px; border-radius: 15px 15px 0 0; }
+        .card-custom { background: #1b262e; border: 1px solid var(--dj-purple); border-radius: 15px; }
+        .header-box { background: linear-gradient(45deg, #528b8d, #528b8d); padding: 20px; border-radius: 15px 15px 0 0; }
         .btn-save { background-color: var(--dj-gold); color: var(--dj-dark); font-weight: bold; border-radius: 10px; padding: 12px; border: none; transition: 0.3s; }
         .btn-save:hover { background-color: #d4af37; transform: scale(1.02); }
         .form-label { color: var(--dj-gold); font-weight: 500; }

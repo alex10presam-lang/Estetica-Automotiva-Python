@@ -1,34 +1,68 @@
+<div align="center">
+
 # DJ WASH
 
-### Gestão de estética automotiva, da entrada à entrega.
+**Gestão de estética automotiva, da entrada à entrega.**
 
-Aplicação web em Python para cadastrar clientes e veículos, registrar a inspeção de entrada, acompanhar serviços e conferir seus custos. O atendimento termina com fotos de entrega, histórico e recibo em PDF.
+Cadastro de clientes e veículos, checklist de entrada, serviços em andamento,
+custos por atendimento, fotos de antes/depois e recibo em PDF — em uma aplicação web local.
 
-**FastAPI · SQLAlchemy · SQLite · Jinja2 · Bootstrap · ReportLab**
+[![Testes](https://github.com/alex10presam-lang/Estetica-Automotiva-Python/actions/workflows/tests.yml/badge.svg)](https://github.com/alex10presam-lang/Estetica-Automotiva-Python/actions/workflows/tests.yml)
+![Python 3.12](https://img.shields.io/badge/Python-3.12-1b262e?logo=python&logoColor=e4b580)
+![FastAPI](https://img.shields.io/badge/FastAPI-SQLAlchemy-1b262e?logo=fastapi&logoColor=e4b580)
+![Funciona offline](https://img.shields.io/badge/front--end-funciona%20offline-1b262e)
 
-[Como executar](#executar-localmente) · [Fluxo de demonstração](#experimente-em-cinco-passos) · [Arquitetura](docs/architecture.md) · [Testes](#qualidade-e-testes)
+[Executar](#executar-localmente) · [Roteiro de demonstração](#experimente-em-cinco-passos) · [Arquitetura](docs/architecture.md) · [Testes](#qualidade-e-testes)
 
-![Painel de serviços com dados fictícios](docs/images/dashboard.png)
+</div>
 
-*Captura do aplicativo em execução. Clientes, placas e valores da demonstração são fictícios.*
+<img src="docs/images/dashboard.png" alt="Painel do DJ WASH com serviços em andamento e concluídos" width="100%">
+
+<sub>Captura da aplicação em execução. Clientes, placas e valores da demonstração são fictícios.</sub>
 
 ## O que o projeto resolve
 
-Um serviço de estética automotiva reúne informações que costumam ficar separadas: cadastro, condições do veículo, preço combinado, produtos consumidos e tempo de trabalho. O DJ WASH organiza essas etapas em um fluxo local, com registro por atendimento.
+Um serviço de estética automotiva reúne informações que costumam ficar espalhadas: cadastro,
+condições do veículo, preço combinado, produtos consumidos e tempo de trabalho. O DJ WASH organiza
+essas etapas em um fluxo único, com registro por atendimento.
 
 | Etapa | Recursos |
 | --- | --- |
-| Recepção | Cadastro de cliente e veículo; preço por categoria e adicional de sujeira |
-| Inspeção | Combustível, observações de avarias e fotografias |
-| Execução | Painel com serviços em andamento e concluídos |
-| Entrega | Revisão do valor cobrado, insumos e fotos de antes/depois |
-| Acompanhamento | Histórico por cliente, indicadores dos registros e recibo em PDF |
+| **Recepção** | Cadastro de cliente e veículo; preço por categoria e adicional por nível de sujeira |
+| **Inspeção** | Combustível, observações de avarias e fotografias |
+| **Execução** | Painel com cronômetro dos serviços em andamento |
+| **Entrega** | Conferência do preço, insumos e mão de obra; fotos de antes e depois |
+| **Acompanhamento** | Painel financeiro, histórico por cliente, relatório do serviço e recibo em PDF |
 
-O resultado de cada serviço desconta insumos e mão de obra do valor cobrado. **Não representa lucro líquido contábil:** custos fixos, impostos e taxas não são deduzidos desse cálculo.
+O resultado de cada serviço desconta insumos e mão de obra do valor cobrado. **Não é lucro líquido
+contábil:** custos fixos, impostos e taxas não entram nesse cálculo.
+
+## Telas
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/images/financeiro.png" alt="Painel financeiro com faturamento, ticket médio, gráficos e histórico"><br><b>Financeiro</b> — faturamento, ticket médio, receita × custos e faturamento por categoria.</td>
+    <td width="50%"><img src="docs/images/finalizacao.png" alt="Janela de finalização com preço combinado, custos internos e resultado estimado"><br><b>Finalização</b> — o preço combinado é mantido; mão de obra e insumos aparecem como custo interno.</td>
+  </tr>
+  <tr>
+    <td><img src="docs/images/detalhes.png" alt="Relatório do serviço com dados do atendimento, valores e fotos"><br><b>Relatório do serviço</b> — atendimento, decomposição do resultado e fotos.</td>
+    <td><img src="docs/images/gestao.png" alt="Configurações de preço por hora, produtos, serviços e custos fixos"><br><b>Gestão</b> — custo da hora, insumos com custo por dose, serviços e custos fixos.</td>
+  </tr>
+  <tr>
+    <td><img src="docs/images/nova-lavagem.png" alt="Formulário de nova lavagem"><br><b>Nova lavagem</b> — cliente existente ou novo, serviço e nível de sujeira.</td>
+    <td><img src="docs/images/clientes.png" alt="Lista de clientes com veículos, última visita e ações"><br><b>Clientes</b> — cadastro rápido, veículos, última visita e WhatsApp.</td>
+  </tr>
+</table>
+
+<details>
+<summary><b>Versão de celular</b> (390 px)</summary>
+<br>
+<img src="docs/images/mobile.png" alt="Painel do DJ WASH em tela de celular" width="300">
+</details>
 
 ## Executar localmente
 
-Requer **Python 3.12** e Git. Execute os comandos na pasta do repositório.
+Requer **Python 3.12** e Git.
 
 ```bash
 git clone https://github.com/alex10presam-lang/Estetica-Automotiva-Python.git
@@ -58,37 +92,43 @@ python -m uvicorn app.main:app --reload --host 127.0.0.1
 
 Abra **http://127.0.0.1:8000**. A documentação das rotas fica em **http://127.0.0.1:8000/docs**.
 
-No Windows, caso a ativação seja bloqueada pela política do PowerShell, use `.\.venv\Scripts\python.exe` no lugar de `python` nos comandos; não é necessário alterar a política do sistema.
+> [!TIP]
+> No Windows, se a ativação for bloqueada pela política do PowerShell, use `.\.venv\Scripts\python.exe`
+> no lugar de `python`. Não é preciso alterar a política do sistema.
 
-O comando `app.demo` só popula um banco vazio. Ele não sobrescreve cadastros existentes. Para começar sem exemplos, pule esse comando: as tabelas são criadas na inicialização.
+O comando `app.demo` só popula um banco vazio e nunca sobrescreve cadastros existentes. Ele cria três
+clientes, dois serviços em andamento e uma semana de serviços concluídos, para que o painel financeiro
+tenha histórico. Para começar sem exemplos, pule esse comando: as tabelas são criadas na inicialização.
 
 ## Experimente em cinco passos
 
-1. Explore o painel: a demonstração contém dois serviços em andamento e um concluído.
-2. Abra **Gestão** para conferir preços, custo por hora e insumos vinculados aos serviços.
-3. Entre no **Checklist de Entrada** e registre uma observação ou uma foto fictícia.
-4. Selecione **Finalizar Serviço**: confira os custos e mantenha ou ajuste o preço combinado.
-5. Consulte o **Financeiro**, o histórico do cliente e o recibo em PDF.
+1. No **Painel**, veja os dois serviços em andamento com o cronômetro e os concluídos logo abaixo.
+2. Abra **Financeiro** para conferir os indicadores e os gráficos da última semana.
+3. Em um serviço em andamento, abra o **Checklist de entrada** e registre uma observação ou foto fictícia.
+4. Clique em **Finalizar serviço**: compare o preço combinado com os custos internos e o resultado estimado.
+5. Abra **Detalhes do serviço** e gere o **recibo em PDF**.
 
-Os telefones de exemplo são inválidos intencionalmente. Os links de WhatsApp apenas abrem o serviço externo; o aplicativo não envia mensagens automaticamente.
-
-<details>
-<summary>Ver a finalização e o painel financeiro</summary>
-
-![Conferência de preço e insumos](docs/images/finalizacao.png)
-
-![Indicadores calculados a partir dos serviços registrados](docs/images/historico.png)
-
-</details>
+Os telefones de exemplo são inválidos de propósito. Os links de WhatsApp apenas abrem o serviço
+externo; o aplicativo não envia mensagens.
 
 ## Decisões de implementação
 
-- **HTML renderizado no servidor:** Jinja2 atende as páginas; JavaScript controla a finalização e os gráficos, sem exigir uma aplicação frontend separada.
-- **Dados locais:** SQLite e fotografias ficam em `data/`, fora dos arquivos versionados. O diretório pode ser alterado com `DJWASH_DATA_DIR`.
-- **Custos separados do preço:** mão de obra e produtos afetam o resultado interno, sem aumentar automaticamente o valor combinado com o cliente.
-- **Insumos sem duplicidade:** os itens do catálogo são incluídos uma única vez, mesmo quando um identificador é repetido no formulário.
-- **Fotografias verificadas:** JPEG, PNG e WebP são decodificados, limitados e convertidos para JPEG sem metadados EXIF. O checklist é preservado ao adicionar a foto de entrega.
-- **Validação de operações:** registros ausentes retornam 404; placas duplicadas e finalização repetida são recusadas; vínculos impedem a exclusão de produtos, serviços e veículos em uso.
+- **HTML renderizado no servidor:** Jinja2 monta as páginas; JavaScript cuida da finalização, do
+  cronômetro e dos gráficos, sem uma aplicação front-end separada.
+- **Front-end sem CDN:** Bootstrap, Font Awesome e Chart.js ficam em `app/static/vendor/`, com suas
+  licenças. As telas abrem sem internet.
+- **Identidade visual única:** `studio.css` define a paleta e os componentes compartilhados, e
+  `_nav.html` é o cabeçalho de todas as páginas, com a seção atual destacada.
+- **Formato brasileiro:** valores passam pelo filtro `brl` (R$ 1.234,56) e telefones pelo filtro
+  `whatsapp`, que mantém só os dígitos e acrescenta o DDI 55 quando falta.
+- **Dados locais:** SQLite e fotografias ficam em `data/`, fora do Git. O diretório pode ser alterado
+  com `DJWASH_DATA_DIR`.
+- **Custos separados do preço:** mão de obra e produtos afetam o resultado interno, sem aumentar o
+  valor combinado com o cliente.
+- **Fotografias verificadas:** JPEG, PNG e WebP são decodificados, limitados e convertidos para JPEG
+  sem metadados EXIF.
+- **Validação das operações:** registros ausentes retornam 404; placas duplicadas e finalização
+  repetida são recusadas; vínculos impedem excluir produtos, serviços e veículos em uso.
 
 ## Estrutura
 
@@ -98,12 +138,13 @@ app/
   config.py          Diretórios e configuração do banco
   database.py        Sessões e integridade referencial
   models.py          Clientes, veículos, catálogo e atendimentos
-  services.py        Validações, custo por dose e tratamento de fotos
+  services.py        Validações, custo por dose, formatação e fotos
   demo.py            Base fictícia para demonstração
   routes/web.py      Fluxos HTTP e geração do recibo
-  templates/         Páginas Jinja2
-  static/css/        Estilos das páginas e identidade visual compartilhada
+  templates/         Páginas Jinja2 e o cabeçalho compartilhado (_nav.html)
+  static/css/        Estilos das páginas e identidade visual (studio.css)
   static/js/         Comportamento do painel
+  static/vendor/     Bootstrap, Font Awesome e Chart.js locais
 tests/               Testes com banco isolado
 docs/                Arquitetura e capturas reais
 ```
@@ -117,14 +158,21 @@ python -m ruff check app tests
 python -m ruff format --check app tests
 ```
 
-A suíte verifica páginas vazias e preenchidas, cadastros, cálculo de custos, finalização repetida, arquivos inválidos, preservação das fotos de inspeção, vínculos e emissão do PDF. Os testes usam um banco temporário, sem abrir a base local de uso.
+A suíte (28 testes) cobre páginas vazias e preenchidas, cadastros, cálculo de custos, finalização
+repetida, arquivos inválidos, preservação das fotos de inspeção, vínculos, gráficos do financeiro,
+formatação em reais e emissão do PDF. Os testes usam um banco temporário.
 
-O GitHub Actions executa os testes e as verificações de código em Python 3.12. A interface também foi conferida no Edge, em desktop e largura de 390 px; as capturas deste README vieram dessa execução.
+O GitHub Actions executa os testes e o Ruff em Python 3.12. As capturas deste README foram feitas
+com a demonstração em execução, em 1440 px e em 390 px.
 
 ## Escopo atual
 
-Esta versão é uma **demonstração local para portfólio**, sem autenticação, autorização por usuário ou proteção CSRF completa. Não exponha o servidor diretamente à internet nem use dados reais de clientes. Bootstrap, ícones e gráficos são carregados de CDNs e precisam de conexão.
+Esta versão é uma **demonstração local para portfólio**, sem autenticação, autorização por usuário ou
+proteção CSRF completa. Não exponha o servidor diretamente à internet nem use dados reais de clientes.
 
-O projeto ainda não inclui migrações de banco, conciliação de pagamentos, emissão fiscal ou garantias para múltiplos operadores simultâneos. Valores monetários usam `Float` no modelo original; uma evolução para uso comercial deve adotar precisão decimal e regras financeiras mais completas.
+Ainda não há migrações de banco, conciliação de pagamentos, emissão fiscal ou suporte a vários
+operadores ao mesmo tempo. Valores monetários usam `Float`; uma evolução comercial deve adotar
+precisão decimal. Consulte [os detalhes técnicos](docs/architecture.md) para limites e próximos passos.
 
-Banco, fotos, QR de pagamento e relatórios antigos foram retirados da versão atual. **Essa limpeza não remove os arquivos de commits anteriores.** Consulte [os detalhes técnicos](docs/architecture.md) para conhecer os limites e próximos passos.
+Banco, fotos, QR de pagamento e relatórios antigos foram retirados da versão atual. **Essa limpeza não
+remove os arquivos de commits anteriores.**

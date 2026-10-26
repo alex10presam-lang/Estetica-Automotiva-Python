@@ -4,27 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DJ WASH | Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/vendor/fontawesome/css/all.min.css">
+    <link href="/static/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/index.css">
 <link rel="stylesheet" href="/static/css/studio.css">
 </head>
 <body>
-<div class="portfolio-notice">DJ WASH / PORTFÓLIO <span>Demonstração local · use dados fictícios</span></div>
-
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/">DJ <span style="color: var(--dj-gold);">WASH</span></a>
-        <div class="d-flex gap-2 flex-wrap">
-            <a href="/historico" class="nav-btn">Financeiro</a>
-            <a href="/gestao" class="nav-btn">Gestão</a>
-            <a href="/clientes_gestao" class="nav-btn">Clientes</a>
-            <a href="/novo" class="btn-nova-lavagem">
-                <i class="fas fa-plus-circle me-1"></i> Nova Lavagem
-            </a>
-        </div>
-    </div>
-</nav>
+{% set active = "painel" %}
+{% include "_nav.html" %}
 
 <div class="container py-4">
     <header class="workshop-intro"><div><p class="eyebrow">CONTROLE DE OPERAÇÃO / 01</p><h1>Cuidado em cada etapa.</h1><p>Da recepção à entrega. Serviços, custos e histórico em um só lugar.</p></div><div class="workshop-mark" aria-hidden="true">DW<span>DETAILING WORKSPACE</span></div></header>
@@ -63,8 +50,13 @@
                 </div>
 
                 <div class="timer-container">
-                    <span class="timer-label">Tempo Decorrido</span>
-                    <div class="timer-value">{{ lavagem.tempo_total or "EM ANDAMENTO" }}</div>
+                    {% if lavagem.status == 'em_andamento' and lavagem.data_inicio %}
+                    <span class="timer-label">Em serviço há</span>
+                    <div class="timer-value" data-inicio="{{ lavagem.data_inicio.isoformat(timespec='seconds') }}">--:--</div>
+                    {% else %}
+                    <span class="timer-label">Tempo total</span>
+                    <div class="timer-value">{{ lavagem.tempo_total or "--:--" }}</div>
+                    {% endif %}
                 </div>
 
                 {% if lavagem.status == 'em_andamento' %}
@@ -81,7 +73,7 @@
                 <div class="mt-auto">
                     <div class="lucro-box">
                         <div class="lucro-label">Resultado do serviço</div>
-                        <div class="lucro-value">R$ {{ "%.2f"|format(lavagem.lucro_real or 0) }}</div>
+                        <div class="lucro-value">{{ (lavagem.lucro_real or 0)|brl }}</div>
                     </div>
 
                     <a href="/lavagem/{{ lavagem.id }}/detalhes" target="_blank" rel="noopener noreferrer" class="btn btn-relatorio btn-action w-100 mb-2">
@@ -95,7 +87,7 @@
                             </a>
                         </div>
                         <div class="col-6">
-                            <a href="https://wa.me/55{{ lavagem.veiculo.cliente.telefone }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-action w-100">
+                            <a href="https://wa.me/{{ lavagem.veiculo.cliente.telefone|whatsapp }}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-action w-100">
                                 <i class="fab fa-whatsapp me-1"></i>WhatsApp
                             </a>
                         </div>
@@ -123,22 +115,27 @@
                     <!-- Summary Box -->
                     <div class="summary-box">
                         <div class="summary-row">
-                            <span class="text-muted small">Valor Base (Serviço):</span>
+                            <span class="text-muted small">Valor do serviço (tabela):</span>
                             <span class="fw-bold" id="txt_valor_base">R$ 0,00</span>
                         </div>
                         <div class="summary-row">
-                            <span class="text-muted small">Custo do trabalho (<span id="txt_minutos">0</span> min):</span>
-                            <span class="fw-bold" style="color: #3498db;">+ R$ <span id="txt_custo_tempo">0.00</span></span>
+                            <span class="text-muted small">Mão de obra interna (<span id="txt_minutos">0</span> min):</span>
+                            <span class="fw-bold text-cost">− <span id="txt_custo_tempo">R$ 0,00</span></span>
                         </div>
                         <div id="row_extra_produtos" class="summary-row d-none">
-                            <span class="text-muted small">Custo dos insumos:</span>
-                            <span class="fw-bold" style="color: #f39c12;">+ R$ <span id="txt_extra_produtos">0.00</span></span>
+                            <span class="text-muted small">Insumos utilizados:</span>
+                            <span class="fw-bold text-cost">− <span id="txt_extra_produtos">R$ 0,00</span></span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="text-muted small">Resultado estimado:</span>
+                            <span class="fw-bold" id="txt_resultado">R$ 0,00</span>
                         </div>
                         <div class="summary-divider"></div>
                         <div class="summary-total">
                             <span class="text-gold fw-bold text-uppercase">Preço combinado:</span>
-                            <h3 class="text-green mb-0 fw-bold">R$ <span id="txt_sugerido">0.00</span></h3>
+                            <h3 class="text-green mb-0 fw-bold" id="txt_sugerido">R$ 0,00</h3>
                         </div>
+                        <p class="summary-hint">Os custos são internos: reduzem o resultado, não aumentam o preço do cliente.</p>
                     </div>
 
                     <!-- Produtos -->
@@ -175,7 +172,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/static/vendor/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="/static/js/dashboard.js" defer></script>
 </body>
 </html>

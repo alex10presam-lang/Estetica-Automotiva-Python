@@ -46,5 +46,68 @@ body { background:#121a20; font-family: 'Segoe UI', sans-serif; }
 @media(max-width:767px) {.financial-layout {grid-template-columns:1fr;}}
 :focus-visible {outline:3px solid #e4b580;outline-offset:4px;}
 @media(max-width:767px) { .portfolio-notice {padding:8px 16px;flex-direction:column;gap:2px;} .navbar .container {gap:16px;} .workshop-mark {display:none;} .workshop-intro {padding:12px 0 24px;} .workshop-intro h1 {letter-spacing:-1px;} .operation-summary div {padding:12px;display:block;} .operation-summary span {display:block;font-size:11px;} .custom-card {padding:20px;} }
+
+/* ---- Navegação compartilhada (_nav.html) ---- */
+.app-nav .container {display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.app-nav .navbar-brand {font-weight:800;color:#edf2f4;}
+.app-nav .navbar-brand span {color:#e4b580;}
+.app-nav-links {display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.app-nav .nav-btn,.app-nav .btn-nova-lavagem {transform:none !important;box-shadow:none !important;transition:background .15s,color .15s,border-color .15s;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:8px;font-weight:600;font-size:.92rem;text-decoration:none;border:1px solid #34414a;background:transparent;color:#b4c6c7 !important;}
+.app-nav .nav-btn:hover {color:#edf2f4 !important;border-color:#60747d;background:#1b262e;}
+.app-nav .nav-btn.is-active {color:#121a20 !important;background:#e4b580;border-color:#e4b580;}
+.app-nav .nav-btn i {font-size:.85rem;opacity:.85;}
+.app-nav .btn-nova-lavagem {border-color:#e4b580;color:#e4b580 !important;background:transparent;}
+.app-nav .btn-nova-lavagem:hover,.app-nav .btn-nova-lavagem.is-active {background:#e4b580;color:#121a20 !important;}
+
+.app-nav {padding:14px 0 !important;}
+.app-nav .navbar-brand {font-size:1.6rem !important;letter-spacing:-1px;}
+
+/* ---- Botões e controles unificados ---- */
+.btn-primary-gold {background:#e4b580 !important;color:#121a20 !important;border-color:#e4b580 !important;font-weight:700;}
+.btn-primary-gold:hover {background:#f1c99b !important;}
+.btn-detalhes {display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;font-size:.85rem;font-weight:600;color:#edf2f4;border:1px solid #528b8d;background:#23363e;text-decoration:none;}
+.btn-detalhes:hover {background:#2c4550;color:#fff;}
+.btn-purple,.btn-save,.btn-toggle-option {border-radius:8px !important;}
+.btn-purple,.btn-save {background:#23363e !important;color:#edf2f4 !important;border:1px solid #528b8d !important;box-shadow:none !important;text-transform:none;letter-spacing:0;font-weight:600;}
+.btn-purple:hover,.btn-save:hover {background:#2c4550 !important;transform:none !important;}
+.btn-gold,.btn-registrar {background:#e4b580 !important;color:#121a20 !important;border:none !important;box-shadow:none !important;}
+.btn-gold:hover,.btn-registrar:hover {background:#f1c99b !important;transform:none !important;}
+.btn-check:checked + .btn-toggle-option {background:#e4b580 !important;color:#121a20 !important;box-shadow:none !important;}
+.btn-toggle-option {background:#121a20 !important;border-color:#34414a !important;}
+.btn-group {box-shadow:none !important;}
+.text-cost {color:#e08a7b !important;}
+.summary-hint {margin:12px 0 0;font-size:.78rem;color:#95a9b2;}
+.navbar-brand,.vehicle-title,h1,h2,h3,h4 {text-shadow:none !important;}
+.page-header h2,.page-title h3,.page-title {text-shadow:none !important;}
+.section-card,.card-cadastro,.profile-header,.timeline-card {background:#1b262e !important;}
+input[type=file].form-control::file-selector-button {background:#23363e;color:#edf2f4;border:0;border-right:1px solid #34414a;}
+
+/* ---- Relatório do serviço ---- */
+.back-link {display:inline-block;color:#b4c6c7;text-decoration:none;font-size:.9rem;margin:8px 0 18px;}
+.back-link:hover {color:#e4b580;}
+.detail-header {display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding-bottom:24px;margin-bottom:28px;border-bottom:1px solid #34414a;}
+.detail-header h1 {font-size:clamp(1.8rem,3.4vw,2.8rem);font-weight:650;letter-spacing:-1.2px;margin:0 0 14px;}
+.detail-header .btn-nova-lavagem {padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:700;}
+.detail-tags {display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.plate-tag {font:600 .85rem/1 ui-monospace,monospace;letter-spacing:1.5px;padding:7px 10px;border-radius:6px;background:#edf2f4;color:#121a20;}
+.status-tag,.muted-tag {font-size:.8rem;padding:6px 10px;border-radius:999px;border:1px solid #34414a;color:#b4c6c7;}
+.status-tag.is-done {color:#90d7b6;border-color:#3d6b5a;background:#90d7b614;}
+.status-tag.is-open {color:#e4b580;border-color:#7a6146;background:#e4b58014;}
+.detail-card {background:#1b262e;border:1px solid #34414a;border-radius:10px;padding:22px;margin-bottom:24px;}
+.detail-card-title {font-size:.78rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:#e4b580;margin:0 0 18px;}
+.detail-list {margin:0;}
+.detail-list dt {font-size:.75rem;font-weight:600;color:#95a9b2;text-transform:uppercase;letter-spacing:.8px;}
+.detail-list dd {margin:2px 0 14px;color:#edf2f4;}
+.detail-list dd:last-child {margin-bottom:0;}
+.money-row {display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed #34414a;color:#b4c6c7;font-size:.95rem;}
+.money-row strong {color:#edf2f4;font-variant-numeric:tabular-nums;}
+.money-row.is-total {border-bottom:0;padding-top:14px;font-weight:600;color:#edf2f4;}
+.money-row.is-total strong {color:#90d7b6;font-size:1.35rem;}
+.photo-label {display:block;font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#95a9b2;margin-bottom:8px;}
+.photo-empty {aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:1px dashed #60747d;border-radius:8px;color:#95a9b2;font-size:.9rem;}
+.photo-empty i {font-size:1.6rem;opacity:.6;}
+.photo-empty:only-child {aspect-ratio:auto;padding:36px 16px;}
+@media(max-width:767px) {.app-nav-links {width:100%;} .app-nav .nav-btn span {position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;} .stats-grid {grid-template-columns:1fr 1fr !important;gap:12px !important;} .stat-card {padding:16px !important;} .stat-card .stat-icon {width:36px;height:36px;font-size:1rem;margin-bottom:12px;} .stat-card .stat-value {font-size:1.25rem !important;} .stat-card .stat-label {font-size:.68rem !important;} .app-nav .nav-btn {padding:9px 12px;} .app-nav .btn-nova-lavagem {margin-left:auto;}}
+
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after {animation:none !important;transition:none !important;} }
 @media print { .portfolio-notice,.navbar,.btn,button {display:none !important;} body {background:white;color:black;} }

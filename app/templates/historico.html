@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financeiro Pro | DJ WASH</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <link href="/static/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/vendor/fontawesome/css/all.min.css">
+    <script src="/static/vendor/chartjs/chart.umd.js"></script>
     <link rel="stylesheet" href="/static/css/historico.css">
 <link rel="stylesheet" href="/static/css/studio.css">
 </head>
 <body>
-<div class="portfolio-notice">DJ WASH / PORTFÓLIO <span>Demonstração local · use dados fictícios</span></div>
+{% set active = "financeiro" %}
+{% include "_nav.html" %}
 
 <div class="container py-5">
     <div class="page-header">
@@ -19,9 +20,6 @@
             <i class="fas fa-chart-line" style="color: var(--dj-gold);"></i>
             Painel <span style="color: var(--dj-gold);">Financeiro</span>
         </h2>
-        <a href="/" class="btn-voltar">
-            <i class="fas fa-arrow-left me-2"></i>Voltar ao Início
-        </a>
     </div>
 
     <!-- Stats Cards -->
@@ -31,7 +29,7 @@
                 <i class="fas fa-dollar-sign"></i>
             </div>
             <div class="stat-label">Faturamento Total</div>
-            <div class="stat-value value-green">R$ {{ "%.2f"|format(total_faturado) }}</div>
+            <div class="stat-value value-green">{{ (total_faturado)|brl }}</div>
         </div>
 
         <div class="stat-card">
@@ -39,7 +37,7 @@
                 <i class="fas fa-ticket-alt"></i>
             </div>
             <div class="stat-label">Ticket Médio</div>
-            <div class="stat-value value-gold">R$ {{ "%.2f"|format(ticket_medio) }}</div>
+            <div class="stat-value value-gold">{{ (ticket_medio)|brl }}</div>
         </div>
 
         <div class="stat-card">
@@ -47,7 +45,7 @@
                 <i class="fas fa-flask"></i>
             </div>
             <div class="stat-label">Custo de Insumos</div>
-            <div class="stat-value value-red">R$ {{ "%.2f"|format(total_produtos) }}</div>
+            <div class="stat-value value-red">{{ (total_produtos)|brl }}</div>
         </div>
 
         <div class="stat-card">
@@ -56,7 +54,7 @@
             </div>
             <div class="stat-label">Margem dos serviços</div>
             <div class="stat-value value-blue">
-                {{ "%.1f"|format((total_faturado - total_produtos - total_mao_obra) / total_faturado * 100) if total_faturado > 0 else 0 }}%
+                {{ ("%.1f"|format((total_faturado - total_produtos - total_mao_obra) / total_faturado * 100) if total_faturado > 0 else "0")|replace(".", ",") }}%
             </div>
         </div>
     </div>
@@ -134,13 +132,13 @@
                             <small class="text-muted">{{ l.veiculo.placa }}</small>
                         </td>
                         <td>
-                            <span class="value-red fw-bold">R$ {{ "%.2f"|format(l.custo_insumos or 0) }}</span>
+                            <span class="value-red fw-bold">{{ (l.custo_insumos or 0)|brl }}</span>
                         </td>
                         <td>
-                            <span class="fw-bold" style="color: #3498db;">R$ {{ "%.2f"|format(l.valor_total or 0) }}</span>
+                            <span class="fw-bold" style="color: #3498db;">{{ (l.valor_total or 0)|brl }}</span>
                         </td>
                         <td>
-                            <span class="value-green fw-bold">R$ {{ "%.2f"|format(l.lucro_real or 0) }}</span>
+                            <span class="value-green fw-bold">{{ (l.lucro_real or 0)|brl }}</span>
                         </td>
                         <td class="text-center">
                             <a href="/lavagens/{{ l.id }}/recibo" target="_blank" rel="noopener noreferrer" class="btn-recibo">
@@ -156,12 +154,22 @@
 </div>
 
 <script>
-    // Configurações globais do Chart.js
-    Chart.defaults.color = '#b4c6c7';
+    // Identidade visual compartilhada com studio.css
+    const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+    const C = { texto: '#b4c6c7', linha: 'rgba(180, 198, 199, 0.12)', fundo: '#1b262e',
+                ouro: '#e4b580', verde: '#90d7b6', vermelho: '#e08a7b', azul: '#7fb4d9', teal: '#528b8d' };
+    Chart.defaults.color = C.texto;
     Chart.defaults.animation = false;
-    Chart.defaults.borderColor = 'rgba(157, 80, 187, 0.2)';
+    Chart.defaults.borderColor = C.linha;
+    Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+    const tooltip = {
+        backgroundColor: '#0c1318', titleColor: C.ouro, bodyColor: '#edf2f4',
+        borderColor: '#34414a', borderWidth: 1, padding: 12, displayColors: false,
+        callbacks: { label: (ctx) => (ctx.dataset.label ? ctx.dataset.label + ': ' : '') + brl.format(ctx.parsed.y ?? ctx.parsed) }
+    };
+    const eixoReais = { beginAtZero: true, grid: { color: C.linha }, ticks: { callback: (v) => brl.format(v) } };
 
-    // 1. Gráfico de Últimos 7 serviços concluídos (Área)
+    // 1. Últimos serviços concluídos (área)
     new Chart(document.getElementById('revenueChart'), {
         type: 'line',
         data: {
@@ -169,121 +177,60 @@
             datasets: [{
                 label: 'Faturamento',
                 data: {{ valores_grafico|tojson }},
-                borderColor: '#2ecc71',
-                backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                borderColor: C.ouro,
+                backgroundColor: 'rgba(228, 181, 128, 0.12)',
+                pointBackgroundColor: C.ouro,
+                pointRadius: 4,
                 fill: true,
-                tension: 0.4,
-                borderWidth: 3
+                tension: 0.35,
+                borderWidth: 2.5
             }]
         },
         options: {
             responsive: true,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: 'rgba(26, 11, 46, 0.95)',
-                    titleColor: '#f1d35a',
-                    bodyColor: '#ffffff',
-                    borderColor: '#9d50bb',
-                    borderWidth: 1,
-                    padding: 12,
-                    displayColors: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: { color: 'rgba(157, 80, 187, 0.1)' },
-                    ticks: {
-                        callback: function(value) {
-                            return 'R$ ' + value.toFixed(2);
-                        }
-                    }
-                },
-                x: {
-                    grid: { display: false }
-                }
-            }
+            plugins: { legend: { display: false }, tooltip },
+            scales: { y: eixoReais, x: { grid: { display: false } } }
         }
     });
 
-    // 2. Gráfico Comparativo Receita vs Custos (Barras)
+    // 2. Receita vs custos (barras)
     new Chart(document.getElementById('comparisonChart'), {
         type: 'bar',
         data: {
             labels: {{ labels_grafico|tojson }},
             datasets: [
-                {
-                    label: 'Receita',
-                    data: {{ valores_grafico|tojson }},
-                    backgroundColor: 'rgba(46, 204, 113, 0.8)',
-                    borderColor: '#2ecc71',
-                    borderWidth: 2
-                },
-                {
-                    label: 'Custos',
-                    data: {{ custos_grafico|tojson }},
-                    backgroundColor: 'rgba(231, 76, 60, 0.8)',
-                    borderColor: '#e74c3c',
-                    borderWidth: 2
-                }
+                { label: 'Receita', data: {{ valores_grafico|tojson }}, backgroundColor: C.verde, borderRadius: 4, maxBarThickness: 36 },
+                { label: 'Custos', data: {{ custos_grafico|tojson }}, backgroundColor: C.vermelho, borderRadius: 4, maxBarThickness: 36 }
             ]
         },
         options: {
             responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                    labels: { color: '#b196d1', font: { weight: 'bold' } }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: { color: 'rgba(157, 80, 187, 0.1)' }
-                },
-                x: {
-                    grid: { display: false }
-                }
-            }
+            plugins: { legend: { position: 'top', labels: { boxWidth: 12, boxHeight: 12 } }, tooltip: { ...tooltip, displayColors: true } },
+            scales: { y: eixoReais, x: { grid: { display: false } } }
         }
     });
 
-    // 3. Gráfico de Distribuição por Categoria (Pizza)
+    // 3. Faturamento por categoria (rosca)
     new Chart(document.getElementById('categoryChart'), {
         type: 'doughnut',
         data: {
             labels: ['Hatch', 'Sedan', 'SUV', 'Pickup'],
             datasets: [{
                 data: {{ categorias_grafico|tojson }},
-                backgroundColor: [
-                    'rgba(241, 211, 90, 0.8)',
-                    'rgba(157, 80, 187, 0.8)',
-                    'rgba(52, 152, 219, 0.8)',
-                    'rgba(46, 204, 113, 0.8)'
-                ],
-                borderColor: '#1a0b2e',
+                backgroundColor: [C.ouro, C.teal, C.azul, C.verde],
+                borderColor: C.fundo,
                 borderWidth: 3
             }]
         },
         options: {
             responsive: true,
+            cutout: '62%',
             plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: { color: '#b196d1', padding: 15 }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.label + ': ' + 'R$ ' + context.parsed.toFixed(2);
-                        }
-                    }
-                }
+                legend: { position: 'bottom', labels: { padding: 15, boxWidth: 12, boxHeight: 12 } },
+                tooltip: { ...tooltip, callbacks: { label: (ctx) => ctx.label + ': ' + brl.format(ctx.parsed) } }
             }
         }
     });
-
 </script>
 </body>
 </html>

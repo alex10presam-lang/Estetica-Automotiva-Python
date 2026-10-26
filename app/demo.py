@@ -52,6 +52,7 @@ def seed_demo():
             ]
         )
         now = datetime.now()
+        vehicles = []
         examples = [
             ("Cliente Demo 01", "Hatch conceito", "DEMO-01", "hatch", basic, 70),
             ("Cliente Demo 02", "SUV conceito", "DEMO-02", "suv", detail, 190),
@@ -84,6 +85,40 @@ def seed_demo():
                 wash.lucro_real = price - 52
                 wash.produtos_usados = "Shampoo neutro, cera líquida"
             db.add(wash)
+            vehicles.append(vehicle)
+
+        # Histórico fictício da última semana, para o painel financeiro ter tendência.
+        history = [
+            (6, 0, basic, 70, 50, 3, "Shampoo neutro"),
+            (5, 1, detail, 190, 120, 7, "Shampoo neutro, cera líquida"),
+            (4, 2, basic, 90, 60, 3, "Shampoo neutro"),
+            (3, 0, detail, 140, 100, 7, "Shampoo neutro, cera líquida"),
+            (2, 1, basic, 110, 70, 3, "Shampoo neutro"),
+            (1, 2, detail, 160, 96, 7, "Shampoo neutro, cera líquida"),
+        ]
+        for days_ago, vehicle_index, service, price, minutes, supplies, used in history:
+            start = (now - timedelta(days=days_ago)).replace(
+                hour=9, minute=30, second=0, microsecond=0
+            )
+            labor = minutes * 30 / 60
+            db.add(
+                models.Lavagem(
+                    veiculo=vehicles[vehicle_index],
+                    servico=service,
+                    valor_total=price,
+                    data_inicio=start,
+                    data_fim=start + timedelta(minutes=minutes),
+                    tempo_total=f"{minutes // 60:02d}:{minutes % 60:02d}",
+                    minutos_totais=minutes,
+                    status="concluida",
+                    custo_insumos=supplies,
+                    custo_mao_de_obra=labor,
+                    lucro_real=price - supplies - labor,
+                    produtos_usados=used,
+                    checklist_avarias="Registro fictício para apresentação do projeto.",
+                    checklist_combustivel="1/2",
+                )
+            )
         db.commit()
         return True
 
