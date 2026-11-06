@@ -12,6 +12,13 @@ Aplicação web em Python para cadastrar clientes e veículos, registrar a inspe
 
 *Captura do aplicativo em execução. Clientes, placas e valores da demonstração são fictícios.*
 
+## Leitura rápida do projeto
+
+- **Foco:** aplicação web em Python, modelagem de atendimentos e acompanhamento de custos.
+- **Evidência técnica:** [modelos relacionais](app/models.py), [validações e tratamento de fotos](app/services.py) e [testes do fluxo](tests/test_workflow.py).
+- **Para avaliar:** percorra a [demonstração em cinco passos](#experimente-em-cinco-passos), da inspeção à conferência de custos e ao recibo.
+- **Estado:** demonstração local com dados fictícios, sem autenticação; o resultado por serviço não representa lucro líquido contábil.
+
 ## O que o projeto resolve
 
 Um serviço de estética automotiva reúne informações que costumam ficar separadas: cadastro, condições do veículo, preço combinado, produtos consumidos e tempo de trabalho. O DJ WASH organiza essas etapas em um fluxo local, com registro por atendimento.
