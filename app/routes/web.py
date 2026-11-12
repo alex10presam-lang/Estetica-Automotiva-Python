@@ -10,7 +10,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.config import APP_DIR
-from app.services import require_record, money, dose_cost, save_photos
+from app.services import require_record, money, dose_cost, save_photos, brl, whatsapp_number
 from app import models
 
 from reportlab.pdfgen import canvas
@@ -20,11 +20,15 @@ from reportlab.lib.colors import HexColor
 
 app = APIRouter()
 templates = Jinja2Templates(directory=str(APP_DIR / "templates"))
+templates.env.filters["brl"] = brl
+templates.env.filters["whatsapp"] = whatsapp_number
 
 
 @app.get("/", response_class=HTMLResponse)
 def dashboard(request: Request, db: Session = Depends(get_db)):
     lavagens = db.query(models.Lavagem).order_by(models.Lavagem.id.desc()).all()
+    # Serviços em andamento primeiro: são os que pedem ação no painel.
+    lavagens.sort(key=lambda registro: registro.status != "em_andamento")
 
     produtos_disponiveis = db.query(models.Produto).all()
 
@@ -579,7 +583,7 @@ def historico_cliente(request: Request, cliente_id: int, db: Session = Depends(g
             "request": request,
             "cliente": cliente,
             "lavagens": lavagens,
-            "total_pago": f"{total_pago:.2f}",
+            "total_pago": total_pago,
         },
     )
 

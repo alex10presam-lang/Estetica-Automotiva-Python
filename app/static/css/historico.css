@@ -1,10 +1,10 @@
 :root {
-            --dj-dark: #0f021f;
-            --dj-card: #1a0b2e;
-            --dj-purple: #9d50bb;
-            --dj-gold: #f1d35a;
+            --dj-dark: #121a20;
+            --dj-card: #1b262e;
+            --dj-purple: #528b8d;
+            --dj-gold: #e4b580;
             --dj-white: #ffffff;
-            --dj-gray: #b196d1;
+            --dj-gray: #b4c6c7;
             --dj-green: #2ecc71;
             --dj-red: #e74c3c;
         }
@@ -16,7 +16,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0f021f 0%, #1a0435 100%);
+            background: linear-gradient(135deg, #121a20 0%, #121a20 100%);
             color: var(--dj-white);
             font-family: 'Inter', 'Segoe UI', sans-serif;
             min-height: 100vh;
@@ -29,7 +29,7 @@
             align-items: center;
             margin-bottom: 40px;
             padding-bottom: 20px;
-            border-bottom: 2px solid rgba(157, 80, 187, 0.3);
+            border-bottom: 2px solid rgba(82, 139, 141, 0.3);
         }
 
         .page-title {
@@ -65,8 +65,8 @@
         }
 
         .stat-card {
-            background: linear-gradient(135deg, rgba(26, 11, 46, 0.9) 0%, rgba(31, 16, 51, 0.9) 100%);
-            border: 1px solid rgba(157, 80, 187, 0.3);
+            background: linear-gradient(135deg, rgba(27, 38, 46, 0.9) 0%, rgba(27, 38, 46, 0.9) 100%);
+            border: 1px solid rgba(82, 139, 141, 0.3);
             border-radius: 18px;
             padding: 24px;
             transition: all 0.3s ease;
@@ -89,7 +89,7 @@
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(157, 80, 187, 0.3);
+            box-shadow: 0 12px 40px rgba(82, 139, 141, 0.3);
         }
 
         .stat-card:hover::before {
@@ -149,7 +149,7 @@
 
         .value-gold {
             color: var(--dj-gold);
-            text-shadow: 0 2px 15px rgba(241, 211, 90, 0.5);
+            text-shadow: 0 2px 15px rgba(228, 181, 128, 0.5);
         }
 
         .value-red {
@@ -171,8 +171,8 @@
         }
 
         .chart-container {
-            background: linear-gradient(135deg, rgba(26, 11, 46, 0.9) 0%, rgba(31, 16, 51, 0.9) 100%);
-            border: 1px solid rgba(157, 80, 187, 0.3);
+            background: linear-gradient(135deg, rgba(27, 38, 46, 0.9) 0%, rgba(27, 38, 46, 0.9) 100%);
+            border: 1px solid rgba(82, 139, 141, 0.3);
             border-radius: 20px;
             padding: 28px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
@@ -184,7 +184,7 @@
             align-items: center;
             margin-bottom: 24px;
             padding-bottom: 16px;
-            border-bottom: 1px solid rgba(157, 80, 187, 0.3);
+            border-bottom: 1px solid rgba(82, 139, 141, 0.3);
         }
 
         .chart-title {
@@ -207,8 +207,8 @@
 
         /* Table Section */
         .table-section {
-            background: linear-gradient(135deg, rgba(26, 11, 46, 0.9) 0%, rgba(31, 16, 51, 0.9) 100%);
-            border: 1px solid rgba(157, 80, 187, 0.3);
+            background: linear-gradient(135deg, rgba(27, 38, 46, 0.9) 0%, rgba(27, 38, 46, 0.9) 100%);
+            border: 1px solid rgba(82, 139, 141, 0.3);
             border-radius: 20px;
             padding: 32px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
@@ -221,7 +221,7 @@
             align-items: center;
             margin-bottom: 24px;
             padding-bottom: 16px;
-            border-bottom: 2px solid rgba(157, 80, 187, 0.3);
+            border-bottom: 2px solid rgba(82, 139, 141, 0.3);
         }
 
         .table-title {
@@ -250,12 +250,12 @@
         }
 
         .table-custom tbody tr {
-            border-bottom: 1px solid rgba(157, 80, 187, 0.1);
+            border-bottom: 1px solid rgba(82, 139, 141, 0.1);
             transition: all 0.3s ease;
         }
 
         .table-custom tbody tr:hover {
-            background: rgba(157, 80, 187, 0.08);
+            background: rgba(82, 139, 141, 0.08);
             transform: translateX(4px);
         }
 
@@ -294,8 +294,8 @@
         }
 
         .insight-card {
-            background: linear-gradient(135deg, rgba(157, 80, 187, 0.15), rgba(241, 211, 90, 0.05));
-            border: 1px solid rgba(157, 80, 187, 0.3);
+            background: linear-gradient(135deg, rgba(82, 139, 141, 0.15), rgba(228, 181, 128, 0.05));
+            border: 1px solid rgba(82, 139, 141, 0.3);
             border-radius: 16px;
             padding: 20px;
         }

@@ -4,22 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico do Cliente | DJ WASH</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="/static/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="/static/css/perfil_cliente.css">
 <link rel="stylesheet" href="/static/css/studio.css">
 </head>
 <body>
-<div class="portfolio-notice">DJ WASH / PORTFÓLIO <span>Demonstração local · use dados fictícios</span></div>
-
-<nav class="navbar navbar-dark">
-    <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand" href="/">DJ <span style="color: var(--dj-gold);">WASH</span></a>
-        <a href="/clientes_gestao" class="nav-btn">
-            <i class="fas fa-arrow-left me-2"></i>Voltar
-        </a>
-    </div>
-</nav>
+{% set active = "clientes" %}
+{% include "_nav.html" %}
 
 <div class="container py-5">
     <div class="profile-header">
@@ -40,7 +32,7 @@
                     </div>
                     <div class="stat-card">
                         <span class="stat-label">Total Gasto</span>
-                        <span class="stat-val" style="font-size: 1.6rem;">R$ {{ total_pago }}</span>
+                        <span class="stat-val" style="font-size: 1.6rem;">{{ total_pago|brl }}</span>
                     </div>
                     <div class="stat-card">
                         <span class="stat-label">Veículos</span>
@@ -103,14 +95,14 @@
                 <div class="col-md-3">
                     <div class="value-section">
                         <span class="value-label">Valor Pago</span>
-                        <span class="value-amount">R$ {{ "%.2f"|format(l.valor_total or 0.0) }}</span>
+                        <span class="value-amount">{{ (l.valor_total or 0.0)|brl }}</span>
                         <span class="value-profit">
-                            Lucro: <span class="value-profit-amount">R$ {{ "%.2f"|format(l.lucro_real or 0.0) }}</span>
+                            Resultado: <span class="value-profit-amount">{{ (l.lucro_real or 0.0)|brl }}</span>
                         </span>
                         <a href="/lavagens/{{ l.id }}/recibo" target="_blank" rel="noopener noreferrer" class="btn-recibo">
                             <i class="fas fa-file-pdf me-1"></i> Recibo
                         </a>
-                        <a href="/lavagem/{{ l.id }}/detalhes" class="btn btn-sm btn-primary">
+                        <a href="/lavagem/{{ l.id }}/detalhes" class="btn-detalhes">
    Ver Relatório Completo
 </a>
                     </div>

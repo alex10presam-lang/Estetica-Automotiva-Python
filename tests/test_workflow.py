@@ -216,9 +216,10 @@ def test_full_registration_flow(client):
 def test_financial_charts_use_recorded_costs(client):
     seed_demo()
     response = client.get("/historico")
-    assert response.context["custos_grafico"] == [52]
-    assert response.context["categorias_grafico"] == [0, 160, 0, 0]
-    assert response.context["valores_grafico"] == [160]
+    # Seis serviços fictícios da semana anterior + o concluído no dia da demonstração.
+    assert response.context["custos_grafico"] == [28, 67, 33, 57, 38, 55, 52]
+    assert response.context["categorias_grafico"] == [210, 410, 300, 0]
+    assert response.context["valores_grafico"] == [70, 190, 90, 140, 110, 160, 160]
 
 
 def test_browser_errors_are_readable(client):
@@ -234,3 +235,22 @@ def test_oversized_photo(client):
         files={"fotos_checklist": ("large.jpg", b"x" * (8 * 1024 * 1024 + 1), "image/jpeg")},
     )
     assert response.status_code == 413
+
+
+def test_brazilian_formatting_helpers():
+    from app.services import brl, whatsapp_number
+
+    assert brl(1234.5) == "R$ 1.234,50"
+    assert brl(0) == "R$ 0,00"
+    assert brl(None) == "R$ 0,00"
+    assert brl(-7) == "-R$ 7,00"
+    assert whatsapp_number("(92) 99999-0000") == "5592999990000"
+    assert whatsapp_number("+55 92 99999-0000") == "5592999990000"
+    assert whatsapp_number("") == ""
+
+
+def test_pages_show_brazilian_currency(client):
+    seed_demo()
+    page = client.get("/historico").text
+    assert "R$ 920,00" in page
+    assert "R$ 160.00" not in page

@@ -1,3 +1,4 @@
+const brl = (v) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(v) || 0);
 let valorBaseOriginal = 0;
     let custoTempoCalculado = 0;
 
@@ -25,10 +26,9 @@ let valorBaseOriginal = 0;
             valorBaseOriginal = data.valor_base;
             custoTempoCalculado = data.custo_mao_de_obra;
 
-            document.getElementById('txt_valor_base').innerText = `R$ ${data.valor_base.toFixed(2)}`;
+            document.getElementById('txt_valor_base').innerText = brl(data.valor_base);
             document.getElementById('txt_minutos').innerText = data.minutos;
-            document.getElementById('txt_custo_tempo').innerText = data.custo_mao_de_obra.toFixed(2);
-            document.getElementById('txt_sugerido').innerText = data.sugerido.toFixed(2);
+            document.getElementById('txt_custo_tempo').innerText = brl(data.custo_mao_de_obra);
             document.getElementById('input_valor_final').value = data.sugerido.toFixed(2);
             document.getElementById('formFinalizar').action = `/lavagens/${lavagemId}/finalizar`;
 
@@ -46,7 +46,7 @@ let valorBaseOriginal = 0;
                 const label = document.createElement('label');
                 label.className = 'form-check-label';
                 label.htmlFor = input.id;
-                label.textContent = `${p.nome} · custo R$ ${p.custo_por_dose.toFixed(2)}${p.incluido ? ' (incluído no serviço)' : ''}`;
+                label.textContent = `${p.nome} · custo ${brl(p.custo_por_dose)}${p.incluido ? ' (incluído no serviço)' : ''}`;
                 row.append(input, label);
                 container.append(row);
             });
@@ -68,14 +68,39 @@ let valorBaseOriginal = 0;
         const rowProd = document.getElementById('row_extra_produtos');
         if (extraProdutos > 0) {
             rowProd.classList.remove('d-none');
-            document.getElementById('txt_extra_produtos').innerText = extraProdutos.toFixed(2);
+            document.getElementById('txt_extra_produtos').innerText = brl(extraProdutos);
         } else {
             rowProd.classList.add('d-none');
         }
 
         const novoTotal = valorBaseOriginal;
-        document.getElementById('txt_sugerido').innerText = novoTotal.toFixed(2);
+        document.getElementById('txt_sugerido').innerText = brl(novoTotal);
         document.getElementById('input_valor_final').value = novoTotal.toFixed(2);
+        atualizarResultado();
     }
+
+    function atualizarResultado() {
+        let insumos = 0;
+        document.querySelectorAll('.check-produto:checked').forEach(c => { insumos += parseFloat(c.dataset.custo) || 0; });
+        const cobrado = parseFloat(document.getElementById('input_valor_final').value) || 0;
+        const resultado = cobrado - insumos - custoTempoCalculado;
+        const alvo = document.getElementById('txt_resultado');
+        alvo.innerText = brl(resultado);
+        alvo.classList.toggle('text-cost', resultado < 0);
+        document.getElementById('txt_sugerido').innerText = brl(cobrado);
+    }
+
+    document.getElementById('input_valor_final')?.addEventListener('input', atualizarResultado);
+
+    function atualizarCronometros() {
+        document.querySelectorAll('[data-inicio]').forEach(el => {
+            const inicio = Date.parse(el.dataset.inicio);
+            if (Number.isNaN(inicio)) return;
+            const minutos = Math.max(0, Math.floor((Date.now() - inicio) / 60000));
+            el.textContent = `${String(Math.floor(minutos / 60)).padStart(2, '0')}:${String(minutos % 60).padStart(2, '0')}`;
+        });
+    }
+    atualizarCronometros();
+    setInterval(atualizarCronometros, 30000);
 const requested = new URLSearchParams(location.search).get('finalizar');
 if (/^\d+$/.test(requested || '')) abrirModalFinalizar(Number(requested));
